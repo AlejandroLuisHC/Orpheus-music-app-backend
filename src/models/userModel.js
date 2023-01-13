@@ -1,41 +1,5 @@
 const { Schema, model } = require("mongoose")
 
-// const userDataSchema = new Schema({
-//     username: {
-//         type: String,
-//         required: [true, "the username is required"]
-//     },
-//     firstname: {
-//         type: String,
-//     },
-//     lastname: {
-//         type: String,
-//     },
-//     email: {
-//         type: String,
-//         required: [true, "the email is required"]
-//     },
-//     country: {
-//         type: String,
-//     },
-//     region: {
-//         type: String,
-//     },
-//     avatar: {
-//         type: String,
-//     },
-//     banner: {
-//         type: String,
-//     },
-//     favGenres: [
-//         {
-//             type: Schema.Types.ObjectId, 
-//             required: [true, "the ID is required"],
-//             ref: 'favGenre' 
-//         }
-//     ]
-// })
-
 const userSchema = new Schema({
     username: {
         type: String,
