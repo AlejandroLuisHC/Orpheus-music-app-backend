@@ -51,6 +51,7 @@ const userController = {
     },
     getUserByEmail: async(req, res, next) => {
         const { body } = req
+        console.log(User);
         if (body) {
             try {
                 const user = await User.findOne({email: body.email})
