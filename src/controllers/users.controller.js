@@ -49,29 +49,7 @@ const userController = {
         }
         next()
     },
-    getUserByEmail: async(req, res, next) => {
-        const { body } = req
-        console.log(User);
-        if (body) {
-            try {
-                const user = await User.findOne({email: body.email})
-                
-                if (user.length < 1) {
-                    return res.status(404).send({
-                        status: "FALSE",
-                        message: `User ${email} was not found`
-                    })
-                }
     
-                res.status(200).send(user)
-                next()
-            } catch (err) {
-                res.status(400).send(err)
-                next()
-            }
-            next()
-        }
-    },
     postUser: async(req, res, next) => {
         const { body } = req
         
@@ -163,7 +141,6 @@ const userController = {
 module.exports = {
     getAllUsers: userController.getAllUsers,
     getUserById: userController.getUserById,
-    getUserByEmail: userController.getUserByEmail,
     postUser: userController.postUser,
     deleteUser: userController.deleteUser,
     patchUser: userController.patchUser
