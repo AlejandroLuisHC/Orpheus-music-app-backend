@@ -22,3 +22,6 @@ const users = require("./v1/routes/users.routes")
 app.use("/api/v1/users", users)
 const genres = require("./v1/routes/genres.routes")
 app.use("/api/v1/genres", genres)
+
+const tracks = require('./v1/routes/tracks.routes')
+app.use('/api/v1/tracks', tracks)
