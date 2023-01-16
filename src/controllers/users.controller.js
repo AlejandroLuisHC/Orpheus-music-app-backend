@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const { User } = require("../models")
 
 const userController = {
-    getAllUsers: async(req, res, next) => {
+    getAllUsers: async(req, res) => {
         try {
             const users = await User.find({})
 
@@ -14,14 +14,14 @@ const userController = {
             }
 
             res.status(200).send(users)
-            next()
+            
         } catch (err) {
             res.status(400).send(err)
-            next()
+            
         }
-        next() 
+         
     },
-    getUserById: async(req, res, next) => {
+    getUserById: async(req, res) => {
         const { params: { id } } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)){
@@ -42,15 +42,15 @@ const userController = {
             }
 
             res.status(200).send(user)
-            next()
+            
         } catch (err) {
             res.status(400).send(err)
-            next()
+            
         }
-        next()
+        
     },
     
-    postUser: async(req, res, next) => {
+    postUser: async(req, res) => {
         const { body } = req
         
         try {
@@ -66,14 +66,14 @@ const userController = {
                 status: "Created",
                 data: user
             })
-            next()  
+              
         } catch (err) {
             res.status(400).send(err.message)
-            next()
+            
         }
-        next()
+        
     },
-    deleteUser: async(req, res, next) => {
+    deleteUser: async(req, res) => {
         const { params: { id }} = req
         
         if (!mongoose.Types.ObjectId.isValid(id)){
@@ -91,18 +91,18 @@ const userController = {
                     status: "FALSE",
                     message: `User ${id} was not found`
                 })
-                next()
+                
             }
 
             res.status(200).send(user)
-            next()  
+              
         } catch (err) {
             res.status(400).send(err)
-            next()
+            
         }
-        next()
+        
     },
-    patchUser: async(req, res, next) => {
+    patchUser: async(req, res) => {
         const { params: { id }, body } = req
         
         if (!mongoose.Types.ObjectId.isValid(id)){
@@ -123,18 +123,18 @@ const userController = {
                     status: "FALSE",
                     message: `User ${id} was not found`
                 })
-                next()
+                
             }
             res.status(201).send({
                 status: "OK",
                 message: `User ${id} updated successfully`
             })
-            next()  
+              
         } catch (err) {
             res.status(400).send(err)
-            next()
+            
         }
-        next()
+        
     }
 }
 

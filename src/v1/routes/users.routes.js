@@ -7,11 +7,11 @@ const {
     deleteUser,
     patchUser
 } = require("../../controllers/users.controller")
-const checkJwt = require("../../middlewares/checkJwt.middleware")
+const { checkJwt } = require("../../middlewares/checkJwt.middleware")
 const router = express.Router()
 router
     .get("/", getAllUsers)
-    .get("/id_search/:id", checkJwt,getUserById)
+    .get("/:id", checkJwt,getUserById)
     .post("/", postUser)
     .delete("/:id", checkJwt,deleteUser)
     .patch("/:id", checkJwt,patchUser)
