@@ -13,8 +13,8 @@ const {
 
 router
     .get('/', getAllTracks)
-    .get('/:id', /* checkJwt, */ getOneTrack)
-    .post('/', postNewTrack)
+    .get('/:id', checkJwt, getOneTrack)
+    .post('/:id', postNewTrack)
     .delete('/:id', /* checkJwt, */ deleteOneTrack)
     .patch('/:id', /* checkJwt, */ patchOneTrack)
 

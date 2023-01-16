@@ -48,10 +48,10 @@ const tracksController = {
     },
 
     postNewTrack: async (req, res, next) => {
-        const { body } = req
+        const { body, params: { id } } = req
 
         try {
-            const newTrack = await Track.create({ ...body })
+            const newTrack = await Track.create({ ...body, ownership: [id, ...body.ownership] })
             res.status(201).send({ status: 'OK', data: newTrack })
             next()
         } catch (err) {

@@ -15,16 +15,29 @@ const trackSchema = new Schema({
         type: String,
         required: [true, "the file is required"]
     },
+    album: {
+        type: Schema.Types.ObjectId, 
+        ref: 'album' 
+    },
+    playlists: [
+        {
+            type: Schema.Types.ObjectId, 
+            ref: 'playlist' 
+        }
+    ],
     genres: [
         {
             type: Schema.Types.ObjectId, 
-            required: [true, "the ID is required"],
-            ref: 'genres' 
+            ref: 'genre' 
         }
     ],
-    owner: {
-        type: String
-    }
+    ownership: [
+        {
+            type: Schema.Types.ObjectId, 
+            required: [true, "the ownership is required"],
+            ref: 'owner' 
+        }
+    ]
 }, { timestamps: true })
 
 module.exports = model('track', trackSchema)
