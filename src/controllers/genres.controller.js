@@ -1,8 +1,7 @@
-const mongoose = require("mongoose")
 const { Genre } = require("../models")
 
 const genresController = {
-    getAllGenres: async (req, res, next) => {
+    getAllGenres: async (req, res) => {
         try {
             const genres = await Genre.find({})
 
@@ -14,14 +13,14 @@ const genresController = {
             }
             
             res.status(200).send(genres)
-            next()
+            
         } catch (error) {
             res.status(400).send(error)
-            next()
+            
         }
-        next()
+        
     },
-    postGenre: async(req, res, next) => {
+    postGenre: async(req, res) => {
         const { body } = req
         
         try {
@@ -37,12 +36,12 @@ const genresController = {
                 status: "Created",
                 data: genre
             })
-            next()  
+              
         } catch (err) {
             res.status(400).send(err.message)
-            next()
+            
         }
-        next()
+        
     }
 }
 

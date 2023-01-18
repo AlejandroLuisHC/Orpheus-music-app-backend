@@ -18,5 +18,9 @@
     "mongoose": "^6.8.3",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "express-jwt": "^8.3.0",
+    "jwks-rsa": "^3.0.1"
   }
 }
