@@ -7,7 +7,7 @@ const {
     deleteUser,
     patchUser
 } = require("../../controllers/users.controller")
-const checkJwt = require("../../middlewares/checkJwt.middleware")
+const { checkJwt } = require("../../middlewares/checkJwt.middleware")
 const router = express.Router()
 router
     .get("/", getAllUsers)

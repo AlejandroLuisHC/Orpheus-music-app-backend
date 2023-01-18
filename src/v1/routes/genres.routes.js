@@ -3,7 +3,7 @@ const {
     getAllGenres,
     postGenre
 } = require("../../controllers/genres.controller");
-const checkJwt = require("../../middlewares/checkJwt.middleware");
+const { checkJwt } = require("../../middlewares/checkJwt.middleware");
 
 const router = express.Router()
 router
