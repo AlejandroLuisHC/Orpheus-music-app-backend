@@ -23,7 +23,7 @@ const userController = {
     },
     getUserById: async(req, res, next) => {
         const { params: { id } } = req
-
+          
         if (!mongoose.Types.ObjectId.isValid(id)){
             return res.status(404).send({
                 status: "FALSE",
