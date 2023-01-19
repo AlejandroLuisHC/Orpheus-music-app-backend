@@ -30,5 +30,8 @@ app.use("/api/v1/playlists", playlists)
 const albums = require("./v1/routes/albums.routes")
 app.use("/api/v1/albums", albums)
 
+const events = require("./v1/routes/events.routes")
+app.use("/api/v1/events", events)
+
 const tracks = require('./v1/routes/tracks.routes')
 app.use('/api/v1/tracks', tracks)
