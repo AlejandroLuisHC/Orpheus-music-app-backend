@@ -3,7 +3,9 @@ const express = require("express")
 const {
     getAllAlbums,
     getAlbumById,
-    postAlbum
+    postAlbum,
+    deleteAlbum,
+    patchAlbum
 } = require("../../controllers/albums.controller")
 
 const { checkJwt } = require("../../middlewares/checkJwt.middleware");
@@ -11,8 +13,10 @@ const { checkJwt } = require("../../middlewares/checkJwt.middleware");
 const router = express.Router()
 
 router
-    .get("/", getAllAlbums)
-    .get("/:id", getAlbumById)
-    .post("/:id", postAlbum)
+    .get("/",       checkJwt, getAllAlbums)
+    .get("/:id",    checkJwt, getAlbumById)
+    .post("/:id",   checkJwt, postAlbum)
+    .delete("/:id", checkJwt, deleteAlbum)
+    .patch("/:id",  checkJwt, patchAlbum)
 
     module.exports = router
