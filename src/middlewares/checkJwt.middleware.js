@@ -14,8 +14,8 @@ const checkJwt = jwt({
     audience: AUTH0_AUDIENCE,
     issuer: AUTH0_ISSUER,
     algorithms: ['RS256']
-  })
+})
   
-  module.exports = {
+module.exports = {
     checkJwt
-  }
+}
