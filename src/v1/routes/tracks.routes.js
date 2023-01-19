@@ -12,9 +12,9 @@ const {
 } = require('../../controllers/tracks.controller')
 
 router
-    .get('/', getAllTracks)
+    .get('/', checkJwt, getAllTracks)
     .get('/:id', checkJwt, getOneTrack)
-    .post('/:id', postNewTrack)
+    .post('/:id', checkJwt, postNewTrack)
     .delete('/:id', checkJwt, deleteOneTrack)
     .patch('/:id', checkJwt, patchOneTrack)
 
