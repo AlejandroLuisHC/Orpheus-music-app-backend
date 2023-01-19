@@ -29,39 +29,39 @@ const userSchema = new Schema({
     },
     favGenres: [
         {
-            type: Schema.Types.ObjectId, 
+            type: Schema.Types.ObjectId,
             required: [true, "the ID is required"],
-            ref: 'favGenre' 
+            ref: 'genre'
         }
     ],
     favPlaylists: [
         {
-            type: Schema.Types.ObjectId, 
-            ref: 'favPlaylist' 
+            type: Schema.Types.ObjectId,
+            ref: 'playlist'
         }
     ],
     favAlbums: [
         {
-            type: Schema.Types.ObjectId, 
-            ref: 'favAlbum' 
+            type: Schema.Types.ObjectId,
+            ref: 'album'
         }
     ],
     favTracks: [
         {
-            type: Schema.Types.ObjectId, 
-            ref: 'favTrack' 
+            type: Schema.Types.ObjectId,
+            ref: 'track'
         }
     ],
     followers: [
         {
-            type: Schema.Types.ObjectId, 
-            ref: 'follower' 
+            type: Schema.Types.ObjectId,
+            ref: 'follower'
         }
     ],
     following: [
         {
-            type: Schema.Types.ObjectId, 
-            ref: 'following' 
+            type: Schema.Types.ObjectId,
+            ref: 'following'
         }
     ],
     isVerified: {

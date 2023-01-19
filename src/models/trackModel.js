@@ -16,26 +16,26 @@ const trackSchema = new Schema({
         required: [true, "the file is required"]
     },
     album: {
-        type: Schema.Types.ObjectId, 
-        ref: 'album' 
+        type: Schema.Types.ObjectId,
+        ref: 'album'
     },
     playlists: [
         {
-            type: Schema.Types.ObjectId, 
-            ref: 'playlist' 
+            type: Schema.Types.ObjectId,
+            ref: 'playlist'
         }
     ],
     genres: [
         {
-            type: Schema.Types.ObjectId, 
-            ref: 'genre' 
+            type: Schema.Types.ObjectId,
+            ref: 'genre'
         }
     ],
     ownership: [
         {
-            type: Schema.Types.ObjectId, 
+            type: Schema.Types.ObjectId,
             required: [true, "the ownership is required"],
-            ref: 'user' 
+            ref: 'user'
         }
     ]
 }, { timestamps: true })

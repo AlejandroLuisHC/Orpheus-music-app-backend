@@ -11,21 +11,19 @@ const genresController = {
                     message: `The DB is currently empty`
                 })
             }
-            
             res.status(200).send(genres)
-            
+
         } catch (error) {
             res.status(400).send(error)
-            
         }
-        
+
     },
-    postGenre: async(req, res) => {
+    postGenre: async (req, res) => {
         const { body } = req
-        
+
         try {
             const genreExists = await Genre.findOne({ name: body.name })
-            if(genreExists) {
+            if (genreExists) {
                 return res.status(400).send({
                     status: "false",
                     message: "Genre already stored in the DB"
@@ -36,16 +34,13 @@ const genresController = {
                 status: "Created",
                 data: genre
             })
-              
+
         } catch (err) {
             res.status(400).send(err.message)
-            
+
         }
-        
     }
 }
-
-
 
 module.exports = {
     getAllGenres: genresController.getAllGenres,

@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose")
 
-
 const albumSchema = new Schema({
     name: {
         type: String,
@@ -9,7 +8,7 @@ const albumSchema = new Schema({
     description: {
         type: String,
     },
-    thumbnail : {
+    thumbnail: {
         type: String,
         require: [true, "The thumbnail is required"]
     },
@@ -40,6 +39,6 @@ const albumSchema = new Schema({
     release: {
         type: String
     }
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = model('album', albumSchema)

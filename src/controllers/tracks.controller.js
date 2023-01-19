@@ -16,7 +16,7 @@ const tracksController = {
     getOneTrack: async (req, res) => {
         const { params: { id } } = req
 
-        if (!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: 'FAILED',
                 data: { error: `${id} is an invalid ID` },
@@ -25,7 +25,7 @@ const tracksController = {
 
         try {
             const track = await Track.findById(id)
-            
+
             if (!track) {
                 return res.status(404).send({
                     status: 'FAILED',
@@ -57,7 +57,7 @@ const tracksController = {
     deleteOneTrack: async (req, res) => {
         const { params: { id } } = req
 
-        if (!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: 'FAILED',
                 data: { error: `${id} is an invalid ID` },
@@ -66,7 +66,7 @@ const tracksController = {
 
         try {
             const track = await Track.findByIdAndDelete(id)
-            
+
             if (!track) {
                 return res.status(404).send({
                     status: 'FAILED',
@@ -85,7 +85,7 @@ const tracksController = {
     patchOneTrack: async (req, res) => {
         const { params: { id }, body } = req
 
-        if (!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: 'FAILED',
                 data: { error: `${id} is an invalid ID` },
@@ -94,10 +94,10 @@ const tracksController = {
 
         try {
             const track = await Track.findByIdAndUpdate(
-                { _id: id }, 
+                { _id: id },
                 { ...body }
             )
-            
+
             if (!track) {
                 return res.status(404).send({
                     status: 'FAILED',

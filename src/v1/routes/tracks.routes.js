@@ -12,10 +12,10 @@ const {
 } = require('../../controllers/tracks.controller')
 
 router
-    .get('/', checkJwt, getAllTracks)
-    .get('/:id', checkJwt, getOneTrack)
-    .post('/:id', checkJwt, postNewTrack)
+    .get('/',       checkJwt, getAllTracks)
+    .get('/:id',    checkJwt, getOneTrack)
+    .post('/:id',   checkJwt, postNewTrack)
     .delete('/:id', checkJwt, deleteOneTrack)
-    .patch('/:id', checkJwt, patchOneTrack)
+    .patch('/:id',  checkJwt, patchOneTrack)
 
 module.exports = router

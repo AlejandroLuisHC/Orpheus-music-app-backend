@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose")
 
-
 const playlistSchema = new Schema({
     name: {
         type: String,
@@ -9,42 +8,42 @@ const playlistSchema = new Schema({
     description: {
         type: String
     },
-    img:{
+    img: {
         type: String
     },
-    tracks:[
-        {
-            type: Schema.Types.ObjectId, 
-            ref:"tracks" 
-
-        }
-    ],
-    followers:[
-        {
-            type: Schema.Types.ObjectId, 
-            ref:"followers" 
-
-        }
-    ],
-    genres:[
-        {
-            type: Schema.Types.ObjectId, 
-            ref:"genres" 
-        }
-    ],
-    moods:[
+    tracks: [
         {
             type: Schema.Types.ObjectId,
-            ref:"moods" 
+            ref: "track"
+
         }
     ],
-    ownership:[
+    followers: [
         {
-            type: Schema.Types.ObjectId, 
-            require: [true, "ownership is require"],
-            ref:"ownerShip"
+            type: Schema.Types.ObjectId,
+            ref: "user"
+
         }
-        
+    ],
+    genres: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "genre"
+        }
+    ],
+    moods: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "mood"
+        }
+    ],
+    ownership: [
+        {
+            type: Schema.Types.ObjectId,
+            require: [true, "ownership is require"],
+            ref: "user"
+        }
+
     ]
 }, { timestamps: true })
 
