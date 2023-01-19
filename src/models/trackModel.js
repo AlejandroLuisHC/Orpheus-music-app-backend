@@ -35,7 +35,7 @@ const trackSchema = new Schema({
         {
             type: Schema.Types.ObjectId, 
             required: [true, "the ownership is required"],
-            ref: 'owner' 
+            ref: 'user' 
         }
     ]
 }, { timestamps: true })
