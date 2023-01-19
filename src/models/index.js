@@ -1,15 +1,17 @@
-const User = require("./userModel")
-const Genre = require("./genreModel")
-const Album = require("./albumModel")               
-const Event = require("./eventModel")
+const User =     require("./userModel")
+const Album =    require("./albumModel")
+const Event =    require("./eventModel")
 const Playlist = require("./playlistModel")
-const Track = require("./trackModel")
+const Track =    require("./trackModel")
+const Genre =    require("./genreModel")
+const Mood =    require("./moodModel")
 
 module.exports = {
     User,
-    Genre,
     Album,
     Event,
     Track,
-    Playlist
+    Playlist,
+    Genre,
+    Mood
 }

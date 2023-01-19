@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose')
 const trackSchema = new Schema({
     name: {
         type: String,
-        required: [true, "the name of the song is required"]
+        required: [true, "the name of the song is requiredd"]
     },
     description: {
         type: String
@@ -13,7 +13,7 @@ const trackSchema = new Schema({
     },
     file: {
         type: String,
-        required: [true, "the file is required"]
+        required: [true, "the file is requiredd"]
     },
     album: {
         type: Schema.Types.ObjectId,
@@ -34,7 +34,7 @@ const trackSchema = new Schema({
     ownership: [
         {
             type: Schema.Types.ObjectId,
-            required: [true, "the ownership is required"],
+            required: [true, "the ownership is requiredd"],
             ref: 'user'
         }
     ]

@@ -3,14 +3,14 @@ const { Schema, model } = require("mongoose")
 const albumSchema = new Schema({
     name: {
         type: String,
-        require: [true, "The name is required"]
+        require: [true, "The name is requiredd"]
     },
     description: {
         type: String,
     },
     thumbnail: {
         type: String,
-        require: [true, "The thumbnail is required"]
+        require: [true, "The thumbnail is requiredd"]
     },
     tracks: [
         {
@@ -26,14 +26,14 @@ const albumSchema = new Schema({
         {
             type: Schema.Types.ObjectId,
             ref: 'genre',
-            require: [true, "genre is required"]
+            require: [true, "genre is requiredd"]
         }
     ],
     ownership: [
         {
             type: Schema.Types.ObjectId,
             ref: 'user',
-            require: [true, "album ownership is required"]
+            require: [true, "album ownership is requiredd"]
         }
     ],
     release: {

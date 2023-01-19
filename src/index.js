@@ -21,9 +21,6 @@ connectDB(app, PORT, DB)
 const users = require("./v1/routes/users.routes")
 app.use("/api/v1/users", users)
 
-const genres = require("./v1/routes/genres.routes")
-app.use("/api/v1/genres", genres)
-
 const playlists = require("./v1/routes/playlists.routes")
 app.use("/api/v1/playlists", playlists)
 
@@ -35,3 +32,9 @@ app.use("/api/v1/events", events)
 
 const tracks = require('./v1/routes/tracks.routes')
 app.use('/api/v1/tracks', tracks)
+
+const genres = require("./v1/routes/genres.routes")
+app.use("/api/v1/genres", genres)
+
+const moods = require("./v1/routes/moods.routes")
+app.use("/api/v1/moods", moods)

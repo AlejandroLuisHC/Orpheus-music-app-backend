@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose")
 const userSchema = new Schema({
     username: {
         type: String,
-        required: [true, "the username is required"]
+        required: [true, "the username is requiredd"]
     },
     firstname: {
         type: String,
@@ -13,7 +13,7 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        required: [true, "the email is required"]
+        required: [true, "the email is requiredd"]
     },
     country: {
         type: String,
@@ -30,7 +30,7 @@ const userSchema = new Schema({
     favGenres: [
         {
             type: Schema.Types.ObjectId,
-            required: [true, "the ID is required"],
+            required: [true, "the ID is requiredd"],
             ref: 'genre'
         }
     ],

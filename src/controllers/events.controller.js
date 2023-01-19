@@ -1,13 +1,13 @@
 const mongoose = require("mongoose")
-const {Event} = require("../models")
+const { Event } = require("../models")
 
 const eventController = {
 
-    getAllEvents: async(req, res) => {
-        try{
+    getAllEvents: async (req, res) => {
+        try {
             const events = await Event.find({})
 
-            if(events.length < 1) {
+            if (events.length < 1) {
                 return res.status(404).send({
                     status: "FALSE",
                     message: `The DB is currently empty`
@@ -15,16 +15,16 @@ const eventController = {
             }
 
             res.status(200).send(events)
-        
+
         } catch (err) {
             res.status(400).send(err.message)
         }
     },
 
-    getEventById: async(req, res) => {
-        const { body, params: {id} } = req
+    getEventById: async (req, res) => {
+        const { body, params: { id } } = req
 
-        if (!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: "FALSE",
                 message: `${id} is an invalid ID`
@@ -32,7 +32,7 @@ const eventController = {
         }
         try {
             const event = await Event.findById(id)
-            if(!event){
+            if (!event) {
                 return res.status(404).send({
                     status: "FALSE",
                     message: `Event ${id} was not found`
@@ -43,22 +43,22 @@ const eventController = {
 
         } catch (error) {
             res.status(400).send(error.message)
-            
+
         }
     },
 
-    postEvent: async(req, res) =>{
-        const {body} = req
+    postEvent: async (req, res) => {
+        const { body } = req
 
-        try{
-            const eventExists = await Event.findOne({name: body.name})
-            if(eventExists){
+        try {
+            const eventExists = await Event.findOne({ name: body.name })
+            if (eventExists) {
                 return res.status(400).send({
-                    status:"false",
-                    message:"Event already stored in the DB"
+                    status: "false",
+                    message: "Event already stored in the DB"
                 })
             }
-            const event = await Event.create({...body})
+            const event = await Event.create({ ...body })
             res.status(201).send({
                 status: "Created",
                 data: event
@@ -69,10 +69,10 @@ const eventController = {
         }
     },
 
-    patchEvent: async(req, res) => {
+    patchEvent: async (req, res) => {
         const { params: { id }, body } = req
-        
-        if (!mongoose.Types.ObjectId.isValid(id)){
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: "FALSE",
                 message: `Event ${id} is invalid`
@@ -81,31 +81,30 @@ const eventController = {
 
         try {
             const event = await Event.findByIdAndUpdate(
-                { _id: id }, 
+                { _id: id },
                 { ...body }
             )
-            
+
             if (!event) {
                 res.status(404).send({
                     status: "FALSE",
                     message: `Event ${id} was not found`
                 })
-                
             }
             res.status(201).send({
                 status: "OK",
                 message: `Event ${id} updated successfully`
             })
-              
+
         } catch (err) {
             res.status(400).send(err)
         }
     },
 
-    deleteEvent: async(req, res) => {
-        const { params: { id }} = req
-        
-        if (!mongoose.Types.ObjectId.isValid(id)){
+    deleteEvent: async (req, res) => {
+        const { params: { id } } = req
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: "FALSE",
                 message: `Event ${id} is invalid`
@@ -120,11 +119,10 @@ const eventController = {
                     status: "FALSE",
                     message: `Event ${id} was not found`
                 })
-                
             }
 
             res.status(200).send(event)
-              
+
         } catch (err) {
             res.status(400).send(err)
         }

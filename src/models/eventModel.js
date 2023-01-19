@@ -10,13 +10,13 @@ const eventSchema = new Schema({
         type: String
     },
 
-    location : {
+    location: {
         type: String
     },
 
     name: {
-            type: String,
-            require: [true, "Name are required"]
+        type: String,
+        require: [true, "Name are required"]
     },
 
     description: {
@@ -39,7 +39,7 @@ const eventSchema = new Schema({
 
     date: {
         type: Date,
-        require: [true, "Date is require"]
+        require: [true, "Date is required"]
     },
 
     stock: {
@@ -50,6 +50,6 @@ const eventSchema = new Schema({
         type: Number
     }
 
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = model('event', eventSchema)
