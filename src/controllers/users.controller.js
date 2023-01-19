@@ -4,7 +4,14 @@ const { User } = require("../models")
 const userController = {
     getAllUsers: async(req, res) => {
         try {
-            const users = await User.find({})
+            const users = await User
+                .find({})
+                .populate("favGenre")
+                .populate("favPlaylist")
+                .populate("favAlbum")
+                .populate("favTrack")
+                .populate("follower")
+                .populate("following")
 
             if (users.length < 1) {
                 return res.status(404).send({
