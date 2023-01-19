@@ -2,21 +2,18 @@ const mongoose = require("mongoose")
 const { Track } = require('../models')
 
 const tracksController = {
-    getAllTracks: async (req, res, next) => {
+    getAllTracks: async (req, res) => {
         try {
             const allTracks = await Track.find({})
             res.status(200).send({ status: 'OK', data: allTracks })
-            next()
         } catch (err) {
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILDED', data: { error: err?.message || err } })
-            next()
+                .send({ status: 'FAILED', data: { error: err?.message || err } })
         }
-        next()
     },
 
-    getOneTrack: async (req, res, next) => {
+    getOneTrack: async (req, res) => {
         const { params: { id } } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)){
@@ -37,33 +34,27 @@ const tracksController = {
             }
 
             res.status(200).send({ status: 'OK', data: track })
-            next()
         } catch (err) {
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILDED', data: { error: err?.message || err } })
-            next()
+                .send({ status: 'FAILED', data: { error: err?.message || err } })
         }
-        next()
     },
 
-    postNewTrack: async (req, res, next) => {
+    postNewTrack: async (req, res) => {
         const { body, params: { id } } = req
 
         try {
             const newTrack = await Track.create({ ...body, ownership: [id, ...body.ownership] })
             res.status(201).send({ status: 'OK', data: newTrack })
-            next()
         } catch (err) {
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILDED', data: { error: err?.message || err } })
-            next()
+                .send({ status: 'FAILED', data: { error: err?.message || err } })
         }
-        next()
     },
 
-    deleteOneTrack: async (req, res, next) => {
+    deleteOneTrack: async (req, res) => {
         const { params: { id } } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)){
@@ -84,17 +75,14 @@ const tracksController = {
             }
 
             res.status(204).send({ status: 'OK' })
-            next()
         } catch (err) {
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILDED', data: { error: err?.message || err } })
-            next()
+                .send({ status: 'FAILED', data: { error: err?.message || err } })
         }
-        next()
     },
 
-    patchOneTrack: async (req, res, next) => {
+    patchOneTrack: async (req, res) => {
         const { params: { id }, body } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)){
@@ -118,14 +106,11 @@ const tracksController = {
             }
 
             res.status(201).send({ status: 'OK', data: track })
-            next()
         } catch (err) {
             res
                 .status(err?.status || 500)
                 .send({ status: 'FAILDED', data: { error: err?.message || err } })
-            next()
         }
-        next()
     }
 }
 
