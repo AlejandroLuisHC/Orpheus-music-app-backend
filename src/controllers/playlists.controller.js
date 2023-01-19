@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const { Playlist } = require("../models")
 
 const playlistController = {
-    getAllPlaylists: async(req,res,next) => {
+    getAllPlaylists: async(req,res) => {
         try {
             const playlists = await Playlist.find({})
 
@@ -79,7 +79,7 @@ const playlistController = {
             res.status(400).send(err.message)
         }
     },
-    deletePlaylist: async(req, res,next) => {
+    deletePlaylist: async(req, res) => {
         const {params: {id}} = req
 
         if (!mongoose.Types.ObjectId.isValid(id)){
@@ -104,7 +104,7 @@ const playlistController = {
         }
 
     },
-    patchPlaylist: async(req, res,next) =>{
+    patchPlaylist: async(req, res) =>{
         const {params:{id}, body} = req
 
         if (!mongoose.Types.ObjectId.isValid(id)){
