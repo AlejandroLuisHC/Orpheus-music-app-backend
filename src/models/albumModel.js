@@ -16,7 +16,7 @@ const albumSchema = new Schema({
     tracks: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'tracks',
+            ref: 'track',
             require: [true, "Tracks are required"]
         }
     ],
@@ -26,15 +26,15 @@ const albumSchema = new Schema({
     genres: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'genres',
-            require: [true, "genre is require"]
+            ref: 'genre',
+            require: [true, "genre is required"]
         }
     ],
     ownership: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'ownership',
-            require: [true, "ownership is require"]
+            ref: 'user',
+            require: [true, "album ownership is required"]
         }
     ],
     release: {

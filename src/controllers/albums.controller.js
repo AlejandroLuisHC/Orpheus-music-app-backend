@@ -54,36 +54,96 @@ const albumController = {
                     massage: "Album already exist"
                 })
             }
+             if(body.ownership){
+                 console.log(id, typeof body.ownership)
 
-            // if(body.ownership){
-            //     console.log(id, body.ownership)
-
-            //     const album = await Album.create({...body,ownership:[id, ...body.ownership]})
-            //     res.status(201).send({
-            //         status: "Album created collab 2",
-            //         data: album
-            //     })
-            // }else{
-            //     console.log('<<<<<< 2 2')
-            //     const album = await Album.create({...body, ownership:[id]})
-            //     res.status(201).send({
-            //         status: "Album created 1",
-            //         data: album
-            //     })
-            // }
-            const album = await Album.create({...body, ownership:[id]})
+                 const album = await Album.create({...body,ownership:[id, ...body.ownership]})
+                 res.status(201).send({
+                     status: "Album created collab 2",
+                     data: album
+                 })
+             }else{
+                 console.log('1 collab')
+                 const album = await Album.create({...body, ownership:[id]})
                  res.status(201).send({
                      status: "Album created 1",
                      data: album
                  })
+             }
+            
         } catch (error) {
             res.status(400).send(error.message)
         }
+    },
+    deleteAlbum: async(req, res) => {
+        const { params: { id }} = req
+        
+        if (!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).send({
+                status: "FALSE",
+                message: `Album ${id} is invalid`
+            })
+        }
+
+        try {
+            const album = await Album.findByIdAndDelete(id)
+
+            if (!album) {
+                res.status(404).send({
+                    status: "FALSE",
+                    message: `Album ${id} was not found`
+                })
+                
+            }
+
+            res.status(200).send(album)
+              
+        } catch (error) {
+            res.status(400).send(error.message)
+            
+        }
+        
+    },
+    patchAlbum: async(req, res) => {
+        const { params: { id }, body } = req
+        
+        if (!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).send({
+                status: "FALSE",
+                message: `Album ${id} is invalid`
+            })
+        }
+
+        try {
+            const album = await Album.findByIdAndUpdate(
+                { _id: id }, 
+                { ...body }
+            )
+            
+            if (!album) {
+                res.status(404).send({
+                    status: "FALSE",
+                    message: `Album ${id} was not found`
+                })
+                
+            }
+            res.status(201).send({
+                status: "OK",
+                message: `Album ${id} updated successfully`
+            })
+              
+        } catch (error) {
+            res.status(400).send(error.message)
+            
+        }
+        
     }
 }
 
 module.exports = {
     getAllAlbums: albumController.getAllAlbums,
     getAlbumById: albumController.getAlbumById,
-    postAlbum: albumController.postAlbum
+    postAlbum: albumController.postAlbum,
+    deleteAlbum: albumController.deleteAlbum,
+    patchAlbum: albumController.patchAlbum
 }
