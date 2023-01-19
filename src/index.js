@@ -24,3 +24,6 @@ const genres = require("./v1/routes/genres.routes")
 app.use("/api/v1/genres", genres)
 const albums = require("./v1/routes/albums.routes")
 app.use("/api/v1/albums", albums)
+
+const tracks = require('./v1/routes/tracks.routes')
+app.use('/api/v1/tracks', tracks)
