@@ -3,7 +3,7 @@ const { Mood } = require("../models")
 const moodsController = {
     getAllMoods: async (req, res) => {
         try {
-            const moods = await Mood.find({})
+            const moods = await Mood.find({}).lean()
 
             if (moods.length < 1) {
                 return res.status(404).send({

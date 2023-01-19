@@ -3,7 +3,7 @@ const { Genre } = require("../models")
 const genresController = {
     getAllGenres: async (req, res) => {
         try {
-            const genres = await Genre.find({})
+            const genres = await Genre.find({}).lean()
 
             if (genres.length < 1) {
                 return res.status(404).send({

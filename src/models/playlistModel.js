@@ -15,14 +15,12 @@ const playlistSchema = new Schema({
         {
             type: Schema.Types.ObjectId,
             ref: "track"
-
         }
     ],
     followers: [
         {
             type: Schema.Types.ObjectId,
             ref: "user"
-
         }
     ],
     genres: [

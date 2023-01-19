@@ -4,7 +4,15 @@ const { Playlist } = require("../models")
 const playlistController = {
     getAllPlaylists: async (req, res) => {
         try {
-            const playlists = await Playlist.find({})
+            const playlists = await Playlist
+                .find({})
+                .populate("tracks")
+                .populate("followers")
+                .populate("genres")
+                .populate("moods")
+                .populate("ownership")
+                .lean()
+
 
             if (playlists.length < 1) {
                 return res.status(404).send({
@@ -28,7 +36,14 @@ const playlistController = {
         }
 
         try {
-            const playlist = await Playlist.findById(id)
+            const playlist = await Playlist
+                .findById(id)
+                .populate("tracks")
+                .populate("followers")
+                .populate("genres")
+                .populate("moods")
+                .populate("ownership")
+                .lean()
 
             if (!playlist) {
                 return res.status(404).send({

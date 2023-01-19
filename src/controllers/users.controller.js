@@ -7,11 +7,11 @@ const userController = {
             const users = await User
                 .find({})
                 .populate("favGenres")
-                // .populate("favPlaylists")
-                // .populate("favAlbums")
-                // .populate("favTracks")
-                // .populate("followers")
-                // .populate("following")
+                .populate("favPlaylists")
+                .populate("favAlbums")
+                .populate("favTracks")
+                .populate("followers")
+                .populate("following")
                 .lean()
 
             if (users.length < 1) {
@@ -39,7 +39,15 @@ const userController = {
         }
 
         try {
-            const user = await User.findById(id)
+            const user = await User
+                .findById(id)
+                .populate("favGenres")
+                .populate("favPlaylists")
+                .populate("favAlbums")
+                .populate("favTracks")
+                .populate("followers")
+                .populate("following")
+                .lean()
 
             if (!user) {
                 return res.status(404).send({
