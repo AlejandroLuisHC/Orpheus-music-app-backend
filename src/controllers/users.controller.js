@@ -61,7 +61,8 @@ const userController = {
         const { body } = req
         
         try {
-            const userExists = await User.findOne({ email: body.email }) // Get to userData.email
+            const userExists = await User.findOne({ email: body.email }) 
+            console.log(userExists)// Get to userData.email
             if(userExists) {
                 return res.status(400).send({
                     status: "false",
