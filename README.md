@@ -1,7 +1,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
-# Orpheus-Music-App (Backend API)
+# Orpheus (Backend API)
 ![This is an image](https://res.cloudinary.com/drghk9p6q/image/upload/v1671122043/Final-Project-MERN/Readme/WhatsApp_Image_2022-12-15_at_17.29.42_c8gara.jpg)
-This is the repository for the backend of the Orpheus-Music-App.
+This is the backend repository for the [Orpheus-music-app repository](https://github.com/AlejandroLuisHC/orpheus-music-app).
 
 ## Getting Started 🚀
 
