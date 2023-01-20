@@ -4,7 +4,13 @@ const { Album } = require('../models')
 const albumController = {
     getAllAlbums: async (req, res) => {
         try {
-            const albums = await Album.find({})
+            const albums = await Album
+                .find({})
+                .populate("tracks")
+                .populate("genres")
+                .populate("ownership")
+                .lean()
+
             if (albums.length < 1) {
                 return res.status(404).send({
                     status: "FALSE",
@@ -27,7 +33,13 @@ const albumController = {
             })
         }
         try {
-            const album = await Album.findById(id)
+            const album = await Album
+                .findById(id)
+                .populate("tracks")
+                .populate("genres")
+                .populate("ownership")
+                .lean()
+                    
             if (!album) {
                 return res.status(404).send({
                     status: "FALSE",

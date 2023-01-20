@@ -4,7 +4,14 @@ const { Track } = require('../models')
 const tracksController = {
     getAllTracks: async (req, res) => {
         try {
-            const allTracks = await Track.find({})
+            const allTracks = await Track
+                .find({})
+                .populate("album")
+                .populate("playlists")
+                .populate("genres")
+                .populate("ownership")
+                .lean()
+
             res.status(200).send({ status: 'OK', data: allTracks })
         } catch (err) {
             res
@@ -24,8 +31,14 @@ const tracksController = {
         }
 
         try {
-            const track = await Track.findById(id)
-
+            const track = await Track
+                .findById(id)
+                .populate("album")
+                .populate("playlists")
+                .populate("genres")
+                .populate("ownership")
+                .lean()
+                
             if (!track) {
                 return res.status(404).send({
                     status: 'FAILED',

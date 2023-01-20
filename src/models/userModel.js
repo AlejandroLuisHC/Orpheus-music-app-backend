@@ -55,13 +55,13 @@ const userSchema = new Schema({
     followers: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'follower'
+            ref: 'user'
         }
     ],
     following: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'following'
+            ref: 'user'
         }
     ],
     isVerified: {

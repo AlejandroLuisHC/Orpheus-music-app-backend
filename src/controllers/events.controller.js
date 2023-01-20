@@ -5,7 +5,11 @@ const eventController = {
 
     getAllEvents: async (req, res) => {
         try {
-            const events = await Event.find({})
+            const events = await Event
+                .find({})
+                .populate("genres")
+                .populate("artists")
+                .lean()
 
             if (events.length < 1) {
                 return res.status(404).send({
@@ -31,7 +35,12 @@ const eventController = {
             })
         }
         try {
-            const event = await Event.findById(id)
+            const event = await Event
+                .findById(id)
+                .populate("genres")
+                .populate("artists")
+                .lean()
+                
             if (!event) {
                 return res.status(404).send({
                     status: "FALSE",

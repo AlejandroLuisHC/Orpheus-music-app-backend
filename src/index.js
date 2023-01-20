@@ -3,11 +3,14 @@ const app = express()
 app.use(express.json())
 
 const morgan = require("morgan")
-const cors = require("cors")
-const helmet = require("helmet")
-app.use(cors())
-app.use(helmet())
 app.use(morgan('dev'))
+
+const cors = require("cors")
+const { APP_ORIGIN } = require("./config/config")
+app.use(cors({origin: APP_ORIGIN}))
+
+const helmet = require("helmet")
+app.use(helmet())
 
 // Connection to DB
 const { connectDB } = require("./utils/mongoose")
