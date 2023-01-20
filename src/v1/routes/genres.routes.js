@@ -7,6 +7,6 @@ const { checkJwt } = require("../../middlewares/checkJwt.middleware");
 
 const router = express.Router()
 router
-    .get("/",   checkJwt, getAllGenres)
-    .post("/",  checkJwt, postGenre)
+    .get("/",            getAllGenres)
+    .post("/", checkJwt, postGenre)
 module.exports = router;

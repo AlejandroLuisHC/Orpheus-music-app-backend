@@ -10,7 +10,6 @@ const checkJwt = jwt({
         jwksRequestsPerMinute: 5,
         jwksUri: `${AUTH0_ISSUER}.well-known/jwks.json`
     }),
-
     audience: AUTH0_AUDIENCE,
     issuer: AUTH0_ISSUER,
     algorithms: ['RS256']
