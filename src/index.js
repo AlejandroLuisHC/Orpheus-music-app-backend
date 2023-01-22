@@ -1,23 +1,26 @@
 const express = require("express")
 const app = express()
-app.use(express.json())
-
 const morgan = require("morgan")
-app.use(morgan('dev'))
-
 const cors = require("cors")
-const { APP_ORIGIN } = require("./config/config")
-app.use(cors({origin: APP_ORIGIN}))
-
 const helmet = require("helmet")
-app.use(helmet())
-
-// Connection to DB
+const fileUpload = require("express-fileupload")
 const { connectDB } = require("./utils/mongoose")
 const {
     PORT,
-    DB
+    DB,
+    APP_ORIGIN
 } = require("./config/config")
+
+app.use(cors({origin: APP_ORIGIN}))
+app.use(morgan('dev'))
+app.use(helmet())
+app.use(express.json())
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: './assets/tmp'
+}))
+
+// Connection to DB
 connectDB(app, PORT, DB)
 
 // Routes
@@ -40,4 +43,5 @@ const genres = require("./v1/routes/genres.routes")
 app.use("/api/v1/genres", genres)
 
 const moods = require("./v1/routes/moods.routes")
+const fileUpload = require("express-fileupload")
 app.use("/api/v1/moods", moods)

@@ -1,19 +1,25 @@
 // Cloudinary credentials
+const { v2: cloudinary } = request("cloudinary")
 const {
     CLOUD_NAME,
     CLOUD_KEY,
     CLOUD_SECRET
-} = require("./config/config")
+} = require("../config/config")
 
 cloudinary.config({
     cloud_name: CLOUD_NAME,
     api_key: CLOUD_KEY,
-    api_secret: CLOUD_SECRET
+    api_secret: CLOUD_SECRET,
+    secure: true
 });
 
 // Upload a file to Cloudinary
-cloudinary.uploader.upload('/ruta/al/archivo.jpg', (err, result) => {
-    if (err) return console.error(err);
+async function uploadImage(filePath){
+    return await cloudinary.uploader.upload(filePath, {
+        folder: "Final-Project-MERN/images-orpheus"
+    });
+}
 
-    console.log(result);
-});
+module.exports = {
+    uploadImage
+}

@@ -1,5 +1,9 @@
 const mongoose = require("mongoose")
 const { User } = require("../models")
+const fs = require('fs-extra')
+const { 
+    uploadImage 
+} = require("../utils/cloudinary")
 
 const userController = {
     getAllUsers: async (req, res) => {
@@ -118,32 +122,61 @@ const userController = {
 
     },
     patchUser: async (req, res) => {
-        const { params: { id }, body } = req
+        const { params: { id }, body, files } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: "FALSE",
                 message: `User ${id} is invalid`
-            })
+            }) 
         }
 
         try {
-            const user = await User.findByIdAndUpdate(
-                { _id: id },
-                { ...body }
-            )
+            if (files?.image) {
+                // If an image is uploaded we upload it to cloudinary and get the public_id and the URL
+                const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
 
-            if (!user) {
-                res.status(404).send({
-                    status: "FALSE",
-                    message: `User ${id} was not found`
+                // Once uploaded, delete the temp. file
+                await fs.unlink(files.image.tempFilePath)
+
+                const user = await User.findByIdAndUpdate(
+                    { _id: id },
+                    { 
+                        ...body, 
+                        avatar_id: public_id, 
+                        avatar: secure_url 
+                    }
+                )
+
+                if (!user) {
+                    res.status(404).send({
+                        status: "FALSE",
+                        message: `User ${id} was not found`
+                    })
+                }
+                res.status(201).send({
+                    status: "OK",
+                    message: `User ${id} updated successfully`
                 })
 
+            } else {
+
+                const user = await User.findByIdAndUpdate(
+                    { _id: id },
+                    { ...body }
+                )
+
+                if (!user) {
+                    res.status(404).send({
+                        status: "FALSE",
+                        message: `User ${id} was not found`
+                    })
+                }
+                res.status(201).send({
+                    status: "OK",
+                    message: `User ${id} updated successfully`
+                })
             }
-            res.status(201).send({
-                status: "OK",
-                message: `User ${id} updated successfully`
-            })
 
         } catch (err) {
             res.status(400).send(err)
