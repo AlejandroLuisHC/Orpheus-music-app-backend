@@ -43,5 +43,4 @@ const genres = require("./v1/routes/genres.routes")
 app.use("/api/v1/genres", genres)
 
 const moods = require("./v1/routes/moods.routes")
-const fileUpload = require("express-fileupload")
 app.use("/api/v1/moods", moods)

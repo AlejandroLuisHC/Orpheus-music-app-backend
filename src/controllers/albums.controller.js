@@ -58,8 +58,12 @@ const albumController = {
     postAlbum: async (req, res) => {
         const { body, params: { id } } = req
 
+        if (!body.img) {
+            body.img = "http://icons.iconseeker.com/png/fullsize/music-notes/note-yellow.png"
+        }
+        
         try {
-            const albumExists = await Album.findOne({ name: body.name, ownership: id })
+            const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership[0] })
             if (albumExists) {
                 res.status(400).send({
                     status: false,
@@ -69,14 +73,14 @@ const albumController = {
             if (body.ownership) {
                 console.log(id, typeof body.ownership)
 
-                const album = await Album.create({ ...body, ownership: [id, ...body.ownership] })
+                const album = await Album.create({ ...body })
                 res.status(201).send({
                     status: "Album created collab 2",
                     data: album
                 })
             } else {
                 console.log('1 collab')
-                const album = await Album.create({ ...body, ownership: [id] })
+                const album = await Album.create({ ...body })
                 res.status(201).send({
                     status: "Album created 1",
                     data: album

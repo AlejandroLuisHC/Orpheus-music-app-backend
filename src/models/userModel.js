@@ -21,11 +21,9 @@ const userSchema = new Schema({
     region: {
         type: String,
     },
-    avatar_id: {
-        type: String
-    },
     avatar: {
-        type: String,
+        id: String,
+        url: String
     },
     banner: {
         type: String,

@@ -8,7 +8,7 @@ const albumSchema = new Schema({
     description: {
         type: String,
     },
-    thumbnail: {
+    img: {
         type: String,
         require: [true, "The thumbnail is requiredd"]
     },

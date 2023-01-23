@@ -1,5 +1,5 @@
 // Cloudinary credentials
-const { v2: cloudinary } = request("cloudinary")
+const { v2: cloudinary } = require("cloudinary")
 const {
     CLOUD_NAME,
     CLOUD_KEY,
@@ -13,13 +13,29 @@ cloudinary.config({
     secure: true
 });
 
-// Upload a file to Cloudinary
-async function uploadImage(filePath){
+// Upload an image to Cloudinary
+async function uploadImage(filePath) {
     return await cloudinary.uploader.upload(filePath, {
+        resource_type: 'image',
         folder: "Final-Project-MERN/images-orpheus"
     });
 }
 
-module.exports = {
-    uploadImage
+// Upload an audio to Cloudinary
+async function uploadTrack(filePath) {
+    return await cloudinary.uploader.upload(filePath, {
+        resource_type: 'video',
+        folder: "Final-Project-MERN/tracks-orpheus"
+    });
 }
+
+async function destroyImage(publicID) {
+    return await cloudinary.uploader.destroy(publicID);
+}
+
+module.exports = {
+    uploadImage,
+    uploadTrack,
+    destroyImage
+}
+

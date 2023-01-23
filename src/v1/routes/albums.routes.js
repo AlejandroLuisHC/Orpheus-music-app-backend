@@ -13,9 +13,9 @@ const { checkJwt } = require("../../middlewares/checkJwt.middleware");
 const router = express.Router()
 
 router
-    .get("/",       checkJwt, getAllAlbums)
+    .get("/",        getAllAlbums)
     .get("/:id",    checkJwt, getAlbumById)
-    .post("/:id",   checkJwt, postAlbum)
+    .post("/",      checkJwt, postAlbum)
     .delete("/:id", checkJwt, deleteAlbum)
     .patch("/:id",  checkJwt, patchAlbum)
 

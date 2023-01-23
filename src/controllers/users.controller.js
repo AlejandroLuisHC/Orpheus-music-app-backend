@@ -10,6 +10,8 @@ const userController = {
         try {
             const users = await User
                 .find({})
+                .limit(10)
+                .sort({date:-1})
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
@@ -68,9 +70,12 @@ const userController = {
         }
 
     },
-
     postUser: async (req, res) => {
         const { body } = req
+
+        if (!body.avatar) {
+            body.avatar = "https://res.cloudinary.com/drghk9p6q/image/upload/v1674474842/Final-Project-MERN/images-orpheus/default-images/Untitled_design_tvsbzn.webp"
+        }
 
         try {
             const userExists = await User.findOne({ email: body.email }) // Get to userData.email
@@ -143,8 +148,7 @@ const userController = {
                     { _id: id },
                     { 
                         ...body, 
-                        avatar_id: public_id, 
-                        avatar: secure_url 
+                        avatar: { id: public_id, url: secure_url }  
                     }
                 )
 
@@ -158,7 +162,7 @@ const userController = {
                     status: "OK",
                     message: `User ${id} updated successfully`
                 })
-
+                
             } else {
 
                 const user = await User.findByIdAndUpdate(
