@@ -1,8 +1,8 @@
 const mongoose = require("mongoose")
 const { User } = require("../models")
 const fs = require('fs-extra')
-const { 
-    uploadImage 
+const {
+    uploadImage, destroyImage
 } = require("../utils/cloudinary")
 
 const userController = {
@@ -11,7 +11,7 @@ const userController = {
             const users = await User
                 .find({})
                 .limit(10)
-                .sort({date:-1})
+                .sort({ date: -1 })
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
@@ -110,14 +110,17 @@ const userController = {
         try {
             const user = await User.findByIdAndDelete(id)
 
+            // Destroy user image from cloudinary
+            if (user.img?.id) {
+                await destroyImage(body.img.id)
+            }
+
             if (!user) {
                 res.status(404).send({
                     status: "FALSE",
                     message: `User ${id} was not found`
                 })
-
             }
-
             res.status(200).send(user)
 
         } catch (err) {
@@ -133,11 +136,16 @@ const userController = {
             return res.status(404).send({
                 status: "FALSE",
                 message: `User ${id} is invalid`
-            }) 
+            })
         }
 
         try {
             if (files?.image) {
+                // Destroy previous image from cloudinary
+                if (body.img?.id) {
+                    await destroyImage(body.img)
+                }
+
                 // If an image is uploaded we upload it to cloudinary and get the public_id and the URL
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
 
@@ -146,9 +154,9 @@ const userController = {
 
                 const user = await User.findByIdAndUpdate(
                     { _id: id },
-                    { 
-                        ...body, 
-                        avatar: { id: public_id, url: secure_url }  
+                    {
+                        ...body,
+                        img: { id: public_id, url: secure_url }
                     }
                 )
 
@@ -162,7 +170,7 @@ const userController = {
                     status: "OK",
                     message: `User ${id} updated successfully`
                 })
-                
+
             } else {
 
                 const user = await User.findByIdAndUpdate(

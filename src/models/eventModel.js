@@ -7,7 +7,11 @@ const eventSchema = new Schema({
     },
 
     img: {
-        type: String
+        id: String,
+        url: {
+            type: String,
+            require: [true, "img is required"]
+        }
     },
 
     location: {

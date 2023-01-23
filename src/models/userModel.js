@@ -21,9 +21,12 @@ const userSchema = new Schema({
     region: {
         type: String,
     },
-    avatar: {
-        id: String,
-        url: String
+    img: {
+        id: String,       
+        url: {
+            type: String,
+            require: [true, "img is required"]
+        }
     },
     banner: {
         type: String,

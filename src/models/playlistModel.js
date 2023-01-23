@@ -9,7 +9,11 @@ const playlistSchema = new Schema({
         type: String
     },
     img: {
-        type: String
+        id: String,       
+        url: {
+            type: String,
+            require: [true, "img is required"]
+        }
     },
     tracks: [
         {
