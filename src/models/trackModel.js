@@ -12,12 +12,12 @@ const trackSchema = new Schema({
         id: String,       
         url: {
             type: String,
-            require: [true, "img is required"]
+            require: [true, "the image url is required"]
         }
     },
     file: {
         type: String,
-        required: [true, "the file is required"]
+        // required: [true, "the file is required"]
     },
     album: {
         type: Schema.Types.ObjectId,
@@ -38,7 +38,7 @@ const trackSchema = new Schema({
     ownership: [
         {
             type: Schema.Types.ObjectId,
-            required: [true, "the ownership is required"],
+            // required: [true, "the ownership is required"],
             ref: 'user'
         }
     ]

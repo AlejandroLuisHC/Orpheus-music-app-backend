@@ -1,5 +1,9 @@
 const mongoose = require("mongoose")
 const { Track } = require('../models')
+const {
+    uploadImage, destroyImage
+} = require("../utils/cloudinary")
+const fs = require("fs-extra")
 
 const tracksController = {
     getAllTracks: async (req, res) => {
@@ -55,10 +59,28 @@ const tracksController = {
     },
 
     postNewTrack: async (req, res) => {
-        const { body, params: { id } } = req
+        const { body, files, params: { id } } = req
+
+        console.log(files)
 
         try {
-            const newTrack = await Track.create({ ...body, ownership: [id, ...body.ownership] })
+            const newTrack = await Track.create({ 
+                ...body, 
+                ownership: [id/* , ...body.ownership */] 
+            })
+
+            if (files?.image) {
+                const result = await uploadImage(files.image.tempFilePath)
+                console.log(result)
+
+                newTrack.img = {
+                    id: result.public_id,
+                    url: result.secure_url
+                }
+
+                // await fs.unlink(files.image.tempFilePath) no se quedan guardadas igualmente
+            }
+
             res.status(201).send({ status: 'OK', data: newTrack })
         } catch (err) {
             res

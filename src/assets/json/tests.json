@@ -1,19 +1,29 @@
-{
-  "username": "Test",
-  "firstName": "Alejandro L.",
-  "lastName": "Herrero",
-  "email": "alejandrolhc@gmail.com",
-  "country": "",
-  "region": "",
-  "avatar": "https://lh3.googleusercontent.com/a/AEdFTp60wOu7NVNoWvsXOINhrZvpYcL0jxP76EMDh1PAsw=s96-c",
-  "banner": "",
-  "favGenres": [],
-  "favPlaylists": [],
-  "favAlbums": [],
-  "favTracks": [],
-  "followers": [],
-  "following": [],
-  "isVerified": false,
-  "isAdmin": false,
-  "isLogged": false
-}
+[
+    {
+        "username": "Test",
+        "firstName": "Alejandro L.",
+        "lastName": "Herrero",
+        "email": "alejandrolhc@gmail.com",
+        "country": "",
+        "region": "",
+        "avatar": "https://lh3.googleusercontent.com/a/AEdFTp60wOu7NVNoWvsXOINhrZvpYcL0jxP76EMDh1PAsw=s96-c",
+        "banner": "",
+        "favGenres": [],
+        "favPlaylists": [],
+        "favAlbums": [],
+        "favTracks": [],
+        "followers": [],
+        "following": [],
+        "isVerified": false,
+        "isAdmin": false,
+        "isLogged": false
+    },
+    {
+        "name": "mucho2",
+        "img": {
+            "url": "https://i.scdn.co/image/ab67616d0000b2736299c83836d48c725bf95ea3"
+        },
+        "file": "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_5MG.mp3",
+        "ownership": ["63ceb010aae6c93e0e33ce5d"]
+    }
+]
