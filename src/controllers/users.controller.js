@@ -47,7 +47,6 @@ const userController = {
         try {
             const user = await User
                 .findById(id)
-                
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
@@ -77,19 +76,11 @@ const userController = {
         }
 
         try {
-            const userExists = await User.findOne({ email: body.email }) // Get to userData.email
-            if (userExists) {
-                return res.status(400).send({
-                    status: "false",
-                    message: "User already stored in the DB"
-                })
-            }
             const user = await User.create({ ...body })
             res.status(201).send({
                 status: "Created",
                 data: user
             })
-
         } catch (err) {
             res.status(400).send(err.message)
         }

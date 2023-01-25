@@ -5,7 +5,6 @@ const fs = require("fs-extra")
 
 const eventController = {
 
-
     getAllEvents: async (req, res) => {
         try {
             const events = await Event
@@ -20,7 +19,6 @@ const eventController = {
                     message: `The DB is currently empty`
                 })
             }
-
             res.status(200).send(events)
 
         } catch (err) {
@@ -43,39 +41,57 @@ const eventController = {
                 .populate("genres")
                 .populate("artists")
                 .lean()
-                
+
             if (!event) {
                 return res.status(404).send({
                     status: "FALSE",
                     message: `Event ${id} was not found`
                 })
             }
-
             res.status(200).send(event)
 
         } catch (error) {
             res.status(400).send(error.message)
-
         }
     },
 
     postEvent: async (req, res) => {
-        const { body } = req
+        const { body, files } = req
 
         try {
-            const eventExists = await Event.findOne({ name: body.name })
-            if (eventExists) {
-                return res.status(400).send({
-                    status: "false",
-                    message: "Event already stored in the DB"
+            if (files.image) {
+                //Cloudinary upload img
+                const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
+                await fs.unlink(files.image.tempFilePath)
+
+                const event = await Event.create({ 
+                    ...body, 
+                    img: {
+                        id: public_id,
+                        url: secure_url
+                    }
+                })
+
+                res.status(201).send({
+                    status: "Created",
+                    data: event
+                }) 
+
+            } else {
+                const eventExists = await Event.findOne({ name: body.name })
+                if (eventExists) {
+                    return res.status(400).send({
+                        status: "false",
+                        message: "Event already stored in the DB"
+                    })
+                }
+
+                const event = await Event.create({ ...body })
+                res.status(201).send({
+                    status: "Created",
+                    data: event
                 })
             }
-            const event = await Event.create({ ...body })
-            res.status(201).send({
-                status: "Created",
-                data: event
-            })
-
         } catch (err) {
             res.status(400).send(err.message)
         }
@@ -92,10 +108,10 @@ const eventController = {
         }
 
         try {
-            if (files?.image){
+            if (files?.image) {
                 //Destroy prev. image  from Cloudinary
                 const event = await Event.findById(id)
-                if(!event) {
+                if (!event) {
                     res.status(404).send({
                         status: "FALSE",
                         message: `Event image ${id} was not found`
@@ -110,8 +126,8 @@ const eventController = {
 
                 await Event.findByIdAndUpdate(
                     { _id: id },
-                    { 
-                        ...body ,
+                    {
+                        ...body,
                         img: { id: public_id, url: secure_url }
                     }
                 )
@@ -119,8 +135,8 @@ const eventController = {
                     status: "OK",
                     message: `Event ${id} updated successfully`
                 })
-                
-            } else{
+
+            } else {
 
                 const event = await Event.findByIdAndUpdate(
                     { _id: id },
@@ -137,9 +153,7 @@ const eventController = {
                     status: "OK",
                     message: `Event ${id} updated successfully`
                 })
-
             }
-           
         } catch (err) {
             res.status(400).send(err.message)
         }
@@ -158,7 +172,7 @@ const eventController = {
         try {
             const event = await Event.findByIdAndDelete(id)
 
-            if(event.img?.id){
+            if (event.img?.id) {
                 await destroy
             }
 

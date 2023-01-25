@@ -18,7 +18,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: [true, "the email is required"],
-        unique: true,
+        unique: [true, "the email must be unique"],
         trim: true,
         validate: {
             validator: value => validator.isEmail(value),

@@ -11,7 +11,8 @@ const eventSchema = new Schema({
         id: String,
         url: {
             type: String,
-            required: [true, "img is required"]
+            required: [true, "img is required"],
+            default: ""
         }
     },
 
@@ -22,8 +23,9 @@ const eventSchema = new Schema({
 
     name: {
         type: String,
-        required: [true, "Name are required"],
-        trim: true
+        required: [true, "Name is required"],
+        trim: true,
+        unique: [true, "Name must be unique"]
     },
 
     description: {
