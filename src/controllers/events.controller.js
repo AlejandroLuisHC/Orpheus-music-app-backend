@@ -1,7 +1,10 @@
 const mongoose = require("mongoose")
 const { Event } = require("../models")
+const { uploadImage, destroyImage } = require("../utils/cloudinary")
+const fs = require("fs-extra")
 
 const eventController = {
+
 
     getAllEvents: async (req, res) => {
         try {
@@ -79,7 +82,7 @@ const eventController = {
     },
 
     patchEvent: async (req, res) => {
-        const { params: { id }, body } = req
+        const { params: { id }, body, files } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
@@ -89,24 +92,56 @@ const eventController = {
         }
 
         try {
-            const event = await Event.findByIdAndUpdate(
-                { _id: id },
-                { ...body }
-            )
+            if (files?.image){
+                //Destroy prev. image  from Cloudinary
+                const event = await Event.findById(id)
+                if(!event) {
+                    res.status(404).send({
+                        status: "FALSE",
+                        message: `Event image ${id} was not found`
+                    })
+                }
+                if (event.img.id) {
+                    await destroyImage(event.img.id)
+                }
+                //Cloudinary upload img
+                const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
+                await fs.unlink(files.image.tempFilePath)
 
-            if (!event) {
-                res.status(404).send({
-                    status: "FALSE",
-                    message: `Event ${id} was not found`
+                await Event.findByIdAndUpdate(
+                    { _id: id },
+                    { 
+                        ...body ,
+                        img: { id: public_id, url: secure_url }
+                    }
+                )
+                res.status(201).send({
+                    status: "OK",
+                    message: `Event ${id} updated successfully`
                 })
-            }
-            res.status(201).send({
-                status: "OK",
-                message: `Event ${id} updated successfully`
-            })
+                
+            } else{
 
+                const event = await Event.findByIdAndUpdate(
+                    { _id: id },
+                    { ...body }
+                )
+
+                if (!event) {
+                    res.status(404).send({
+                        status: "FALSE",
+                        message: `Event ${id} was not found`
+                    })
+                }
+                res.status(201).send({
+                    status: "OK",
+                    message: `Event ${id} updated successfully`
+                })
+
+            }
+           
         } catch (err) {
-            res.status(400).send(err)
+            res.status(400).send(err.message)
         }
     },
 
@@ -122,6 +157,10 @@ const eventController = {
 
         try {
             const event = await Event.findByIdAndDelete(id)
+
+            if(event.img?.id){
+                await destroy
+            }
 
             if (!event) {
                 res.status(404).send({
