@@ -16,8 +16,11 @@ const trackSchema = new Schema({
         }
     },
     file: {
-        type: String,
-        required: [true, "the file is required"]
+        id: String,
+        url: {
+            type: String,
+            require: [true, "the file is required"]
+        }
     },
     album: {
         type: Schema.Types.ObjectId,

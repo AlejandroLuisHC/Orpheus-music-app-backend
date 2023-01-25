@@ -29,7 +29,8 @@ const userSchema = new Schema({
         }
     },
     banner: {
-        type: String,
+        id: String,       
+        url: String
     },
     favGenres: [
         {

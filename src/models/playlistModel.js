@@ -15,10 +15,13 @@ const playlistSchema = new Schema({
             require: [true, "img is required"]
         }
     },
-    tracks: [
+    files: [
         {
-            type: Schema.Types.ObjectId,
-            ref: "track"
+            id: String,
+            url: {
+                type: String,
+                require: [true, "the file is required"]
+            }
         }
     ],
     followers: [
