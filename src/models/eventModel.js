@@ -3,28 +3,32 @@ const { Schema, model } = require("mongoose")
 
 const eventSchema = new Schema({
     type: {
-        type: String
+        type: String,
+        trim: true
     },
 
     img: {
         id: String,
         url: {
             type: String,
-            require: [true, "img is required"]
+            required: [true, "img is required"]
         }
     },
 
     location: {
-        type: String
+        type: String,
+        trim: true
     },
 
     name: {
         type: String,
-        require: [true, "Name are required"]
+        required: [true, "Name are required"],
+        trim: true
     },
 
     description: {
-        type: String
+        type: String,
+        trim: true
     },
 
     genres: [
@@ -43,7 +47,7 @@ const eventSchema = new Schema({
 
     date: {
         type: Date,
-        require: [true, "Date is required"]
+        required: [true, "Date is required"]
     },
 
     stock: {

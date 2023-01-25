@@ -17,6 +17,10 @@ const CLOUD_NAME     = process.env.CLOUD_NAME
 const CLOUD_KEY      = process.env.CLOUD_KEY
 const CLOUD_SECRET   = process.env.CLOUD_SECRET
 
+// Endpoint Version 
+const VERSION = "/api/v1/"
+const ROUTING_VERSION = "./v1"
+
 module.exports = {
     PORT,
     DB: DB_TEST,
@@ -25,5 +29,7 @@ module.exports = {
     APP_ORIGIN,
     CLOUD_NAME,
     CLOUD_KEY,
-    CLOUD_SECRET
+    CLOUD_SECRET,
+    VERSION,
+    ROUTING_VERSION
 }

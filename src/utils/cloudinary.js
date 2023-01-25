@@ -32,7 +32,7 @@ async function uploadTrack(filePath) {
 }
 
 async function destroyImage(publicID) {
-    return await cloudinary.uploader.destroy(publicID);
+    await cloudinary.uploader.destroy(publicID);
 }
 
 module.exports = {

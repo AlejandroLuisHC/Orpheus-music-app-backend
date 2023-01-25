@@ -19,7 +19,7 @@ const userController = {
                 .populate("followers")
                 .populate("following")
                 .lean()
-
+            
             if (users.length < 1) {
                 return res.status(404).send({
                     status: "FALSE",
@@ -27,7 +27,7 @@ const userController = {
                 })
             }
 
-            res.status(200).send(users)
+            res.status(200).send(users)        
 
         } catch (err) {
             res.status(400).send(err.message)
@@ -62,12 +62,10 @@ const userController = {
                     message: `User ${id} was not found`
                 })
             }
-
             res.status(200).send(user)
 
         } catch (err) {
-            res.status(400).send(err)
-
+            res.status(400).send(err.message)
         }
 
     },
@@ -94,7 +92,6 @@ const userController = {
 
         } catch (err) {
             res.status(400).send(err.message)
-
         }
 
     },
@@ -133,6 +130,9 @@ const userController = {
     patchUser: async (req, res) => {
         const { params: { id }, body, files } = req
 
+        console.log("BODY", body);
+        console.log("FILES", files);
+
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: "FALSE",
@@ -143,16 +143,24 @@ const userController = {
         try {
             if (files?.image) {
                 // Destroy previous image from cloudinary
-                if (body.img?.id) {
-                    await destroyImage(body.img.id)
+                const user = await User.findById(id)
+                if (!user) {
+                    res.status(404).send({
+                        status: "FALSE",
+                        message: `User ${id} was not found`
+                    })
+                }
+                if (user.img.id) {
+                    console.log(user.img.id);
+                    await destroyImage(user.img.id)
                 }
 
                 // If an image is uploaded we upload it to cloudinary and get the public_id and the URL
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
+                await fs.unlink(files.image.tempFilePath)
 
-                
-
-                const user = await User.findByIdAndUpdate(
+                // Update user
+                await User.findByIdAndUpdate(
                     { _id: id },
                     {
                         ...body,
@@ -160,19 +168,12 @@ const userController = {
                     }
                 )
 
-                if (!user) {
-                    res.status(404).send({
-                        status: "FALSE",
-                        message: `User ${id} was not found`
-                    })
-                }
                 res.status(201).send({
                     status: "OK",
                     message: `User ${id} updated successfully`
                 })
 
             } else {
-
                 const user = await User.findByIdAndUpdate(
                     { _id: id },
                     { ...body }
@@ -184,6 +185,7 @@ const userController = {
                         message: `User ${id} was not found`
                     })
                 }
+
                 res.status(201).send({
                     status: "OK",
                     message: `User ${id} updated successfully`
@@ -191,10 +193,8 @@ const userController = {
             }
 
         } catch (err) {
-            res.status(400).send(err)
-
+            res.status(400).send(err.message)
         }
-
     }
 }
 

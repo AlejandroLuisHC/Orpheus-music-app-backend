@@ -8,39 +8,42 @@ const { connectDB } = require("./utils/mongoose")
 const {
     PORT,
     DB,
-    APP_ORIGIN
+    APP_ORIGIN,
+    VERSION,
+    ROUTING_VERSION
 } = require("./config/config")
 
-app.use(cors({origin: APP_ORIGIN}))
+// Middlewares
+app.use(cors({ origin: APP_ORIGIN }))
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(express.json())
 app.use(fileUpload({
     useTempFiles: true,
-    tempFileDir: './assets/tmp'
+    tempFileDir: './src/assets/tmp'
 }))
 
 // Connection to DB
 connectDB(app, PORT, DB)
 
 // Routes
-const users = require("./v1/routes/users.routes")
-app.use("/api/v1/users", users)
+const { users } = require(ROUTING_VERSION)
+app.use(`${VERSION}users`, users)
 
-const playlists = require("./v1/routes/playlists.routes")
-app.use("/api/v1/playlists", playlists)
+const { playlists } = require(ROUTING_VERSION)
+app.use(`${VERSION}playlists`, playlists)
 
-const albums = require("./v1/routes/albums.routes")
-app.use("/api/v1/albums", albums)
+const { albums } = require(ROUTING_VERSION)
+app.use(`${VERSION}albums`, albums)
 
-const events = require("./v1/routes/events.routes")
-app.use("/api/v1/events", events)
+const { events } = require(ROUTING_VERSION)
+app.use(`${VERSION}events`, events)
 
-const tracks = require('./v1/routes/tracks.routes')
-app.use('/api/v1/tracks', tracks)
+const { tracks } = require(ROUTING_VERSION)
+app.use(`${VERSION}tracks`, tracks)
 
-const genres = require("./v1/routes/genres.routes")
-app.use("/api/v1/genres", genres)
+const { genres } = require(ROUTING_VERSION)
+app.use(`${VERSION}genres`, genres)
 
-const moods = require("./v1/routes/moods.routes")
-app.use("/api/v1/moods", moods)
+const { moods } = require(ROUTING_VERSION)
+app.use(`${VERSION}moods`, moods)

@@ -3,10 +3,12 @@ const { Schema, model } = require("mongoose")
 const playlistSchema = new Schema({
     name: {
         type: String,
-        require: [true, "Name is required"]
+        required: [true, "Name is required"],
+        trim: true
     },
     description: {
-        type: String
+        type: String,
+        trim: true
     },
     img: {
         id: String,       
@@ -43,7 +45,7 @@ const playlistSchema = new Schema({
     ownership: [
         {
             type: Schema.Types.ObjectId,
-            require: [true, "ownership is required"],
+            required: [true, "ownership is required"],
             ref: "user"
         }
 
