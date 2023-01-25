@@ -11,9 +11,9 @@ const { checkJwt } = require("../../middlewares/checkJwt.middleware")
 const router = express.Router()
 router
     .get("/",                 getAllUsers)
-    .get("/:id",    getUserById)
+    .get("/:id",    checkJwt, getUserById)
     .post("/",                postUser)
     .delete("/:id", checkJwt, deleteUser)
-    .patch("/:id",  patchUser)
+    .patch("/:id",  checkJwt, patchUser)
 
 module.exports = router;
