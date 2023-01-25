@@ -3,7 +3,8 @@ const { Schema, model } = require("mongoose")
 const moodSchema = new Schema({
     name: {
         type: String,
-        require: [true, "Mood is required"]
+        required: [true, "Mood is required"],
+        trim: true
     }
 })
 

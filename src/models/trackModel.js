@@ -3,23 +3,25 @@ const { Schema, model } = require('mongoose')
 const trackSchema = new Schema({
     name: {
         type: String,
-        required: [true, "the name of the song is required"]
+        required: [true, "the name of the song is required"],
+        trim: true
     },
     description: {
-        type: String
+        type: String,
+        trim: true
     },
     img: {
         id: String,       
         url: {
             type: String,
-            require: [true, "img is required"]
+            required: [true, "img is required"]
         }
     },
     file: {
         id: String,
         url: {
             type: String,
-            require: [true, "the file is required"]
+            required: [true, "the file is required"]
         }
     },
     album: {

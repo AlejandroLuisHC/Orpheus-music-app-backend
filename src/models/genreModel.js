@@ -3,7 +3,8 @@ const { Schema, model } = require("mongoose")
 const genreSchema = new Schema({
     name: {
         type: String,
-        require: [true, "Genre is required"]
+        required: [true, "Genre is required"],
+        trim: true
     }
 })
 

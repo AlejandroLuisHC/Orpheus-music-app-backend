@@ -9,10 +9,12 @@ const {
     PORT,
     DB,
     APP_ORIGIN,
-    VERSION
+    VERSION,
+    ROUTING_VERSION
 } = require("./config/config")
 
-app.use(cors({origin: APP_ORIGIN}))
+// Middlewares
+app.use(cors({ origin: APP_ORIGIN }))
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(express.json())
@@ -25,23 +27,23 @@ app.use(fileUpload({
 connectDB(app, PORT, DB)
 
 // Routes
-const users = require("./v1/routes/users.routes")
+const { users } = require(ROUTING_VERSION)
 app.use(`${VERSION}users`, users)
 
-const playlists = require("./v1/routes/playlists.routes")
+const { playlists } = require(ROUTING_VERSION)
 app.use(`${VERSION}playlists`, playlists)
 
-const albums = require("./v1/routes/albums.routes")
+const { albums } = require(ROUTING_VERSION)
 app.use(`${VERSION}albums`, albums)
 
-const events = require("./v1/routes/events.routes")
+const { events } = require(ROUTING_VERSION)
 app.use(`${VERSION}events`, events)
 
-const tracks = require('./v1/routes/tracks.routes')
+const { tracks } = require(ROUTING_VERSION)
 app.use(`${VERSION}tracks`, tracks)
 
-const genres = require("./v1/routes/genres.routes")
+const { genres } = require(ROUTING_VERSION)
 app.use(`${VERSION}genres`, genres)
 
-const moods = require("./v1/routes/moods.routes")
+const { moods } = require(ROUTING_VERSION)
 app.use(`${VERSION}moods`, moods)

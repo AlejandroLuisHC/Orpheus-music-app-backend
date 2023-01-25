@@ -1,31 +1,43 @@
 const { Schema, model } = require("mongoose")
+const validator = require("validator")
 
 const userSchema = new Schema({
     username: {
         type: String,
-        required: [true, "the username is requiredd"]
+        required: [true, "the username is required"],
+        trim: true,
     },
     firstname: {
         type: String,
+        trim: true,
     },
     lastname: {
         type: String,
+        trim: true,
     },
     email: {
         type: String,
-        required: [true, "the email is requiredd"]
+        required: [true, "the email is required"],
+        unique: true,
+        trim: true,
+        validate: {
+            validator: value => validator.isEmail(value),
+            message: props => `The email ${props.value} is not valid.`
+        }
     },
     country: {
         type: String,
+        trim: true,
     },
     region: {
         type: String,
+        trim: true,
     },
     img: {
         id: String,       
         url: {
             type: String,
-            require: [true, "img is required"]
+            required: [true, "img is required"]
         }
     },
     banner: {
@@ -35,7 +47,7 @@ const userSchema = new Schema({
     favGenres: [
         {
             type: Schema.Types.ObjectId,
-            required: [true, "the ID is requiredd"],
+            required: [true, "the ID is required"],
             ref: 'genre'
         }
     ],
