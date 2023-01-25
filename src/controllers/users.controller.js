@@ -47,6 +47,7 @@ const userController = {
         try {
             const user = await User
                 .findById(id)
+                
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
@@ -112,7 +113,7 @@ const userController = {
 
             // Destroy user image from cloudinary
             if (user.img?.id) {
-                await destroyImage(body.img.id)
+                await destroyImage(user.img.id)
             }
 
             if (!user) {
@@ -143,14 +144,13 @@ const userController = {
             if (files?.image) {
                 // Destroy previous image from cloudinary
                 if (body.img?.id) {
-                    await destroyImage(body.img)
+                    await destroyImage(body.img.id)
                 }
 
                 // If an image is uploaded we upload it to cloudinary and get the public_id and the URL
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
 
-                // Once uploaded, delete the temp. file
-                await fs.unlink(files.image.tempFilePath)
+                
 
                 const user = await User.findByIdAndUpdate(
                     { _id: id },

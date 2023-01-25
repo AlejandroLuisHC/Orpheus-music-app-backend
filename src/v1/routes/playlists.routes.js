@@ -13,6 +13,6 @@ router
     .get("/:id",    checkJwt,getPlaylistById)
     .post("/:id",   checkJwt,postPlaylist)
     .delete("/:id", checkJwt,deletePlaylist)
-    .patch("/:id",  checkJwt,patchPlaylist)
+    .patch("/:id",  checkJwt,  patchPlaylist)
 
 module.exports = router;

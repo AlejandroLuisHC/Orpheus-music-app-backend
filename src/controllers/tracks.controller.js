@@ -79,7 +79,7 @@ const tracksController = {
 
         try {
             const track = await Track.findByIdAndDelete(id)
-
+                
             if (!track) {
                 return res.status(404).send({
                     status: 'FAILED',
