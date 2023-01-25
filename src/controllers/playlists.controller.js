@@ -30,7 +30,7 @@ const playlistController = {
         }
     },
     getPlaylistById: async (req, res) => {
-        const { params: { id },files } = req
+        const { params: { id } } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
@@ -64,7 +64,7 @@ const playlistController = {
     },
     postPlaylist: async (req, res) => {
         console.log("holi")
-        const { body, params: { id } ,files } = req
+        const { body, params: { id }, files } = req
         try {
 
             const playlistExist = await Playlist.findOne({ name: body.name, ownership: id })
@@ -83,26 +83,28 @@ const playlistController = {
                 })
             }
 
-            if(files?.image){
-                
+            if (files?.image) {
+
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
 
                 if (body.ownership) {
                     const playlist = await Playlist.create(
-                        { ...body, 
-                        img : {id: public_id, url: secure_url},
-                        ownership: [id, ...body.ownership] 
+                        {
+                            ...body,
+                            img: { id: public_id, url: secure_url },
+                            ownership: [id, ...body.ownership]
                         }
-                     )
+                    )
                     res.status(201).send({
                         status: "Created ",
                         data: playlist
                     })
                 } else {
                     const playlist = await Playlist.create(
-                        { ...body,
-                        img : {id: public_id, url: secure_url},
-                        ownership: [id] 
+                        {
+                            ...body,
+                            img: { id: public_id, url: secure_url },
+                            ownership: [id]
                         }
                     )
                     res.status(201).send({
@@ -110,21 +112,23 @@ const playlistController = {
                         data: playlist
                     })
                 }
-            }else {
+            } else {
                 if (body.ownership) {
                     const playlist = await Playlist.create(
-                        { ...body, 
-                        ownership: [id, ...body.ownership] 
+                        {
+                            ...body,
+                            ownership: [id, ...body.ownership]
                         }
-                     )
+                    )
                     res.status(201).send({
                         status: "Created ",
                         data: playlist
                     })
                 } else {
                     const playlist = await Playlist.create(
-                        { ...body,
-                        ownership: [id] 
+                        {
+                            ...body,
+                            ownership: [id]
                         }
                     )
                     res.status(201).send({
@@ -133,7 +137,7 @@ const playlistController = {
                     })
                 }
             }
-    
+
         } catch (err) {
             res.status(400).send(err.message)
         }
@@ -187,17 +191,18 @@ const playlistController = {
 
                     await destroyImage(playlistFind.img.id)
                 }
-             
+
                 //  const track = await Track.findByIdAndUpdate({_id:body.track._id},
                 //     {playlist: [body.track._id, ...track.playlist]})   
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
-                
+
                 await fs.unlink(files.image.tempFilePath)
 
                 const playlist = await Playlist.findByIdAndUpdate(
                     { _id: id },
-                    { ...body,
-                        img: {id: public_id, url: secure_url} 
+                    {
+                        ...body,
+                        img: { id: public_id, url: secure_url }
                     }
                 )
                 if (!playlist) {
@@ -205,30 +210,30 @@ const playlistController = {
                         status: "FALSE",
                         message: `Playlist ${id} was not found`
                     })
-    
+
                 }
                 res.status(201).send({
-                        status: "OK",
-                        message: `Playlist ${id} updated successfully`
+                    status: "OK",
+                    message: `Playlist ${id} updated successfully`
                 })
 
-            }else{
+            } else {
                 const playlist = await Playlist.findByIdAndUpdate(
                     { _id: id },
-                    { ...body}
+                    { ...body }
                 )
                 if (!playlist) {
-                        res.status(404).send({
-                            status: "FALSE",
-                            message: `Playlist ${id} was not found`
-                        })
-    
+                    res.status(404).send({
+                        status: "FALSE",
+                        message: `Playlist ${id} was not found`
+                    })
+
                 }
                 res.status(201).send({
-                        status: "OK",
-                        message: `Playlist ${id} updated successfully`
-                })    
-                }
+                    status: "OK",
+                    message: `Playlist ${id} updated successfully`
+                })
+            }
         } catch (err) {
             res.status(400).send(err.message)
 
