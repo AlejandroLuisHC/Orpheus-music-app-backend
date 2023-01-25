@@ -18,7 +18,8 @@ async function uploadImage(filePath) {
     return await cloudinary.uploader.upload(filePath, {
         resource_type: 'image',
         folder: "Final-Project-MERN/images-orpheus"
-    });   
+    });
+    
 }
 
 // Upload an audio to Cloudinary
@@ -27,6 +28,7 @@ async function uploadTrack(filePath) {
         resource_type: 'video',
         folder: "Final-Project-MERN/tracks-orpheus"
     });
+  
 }
 
 async function destroyImage(publicID) {

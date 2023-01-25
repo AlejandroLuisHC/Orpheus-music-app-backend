@@ -47,6 +47,7 @@ const userController = {
         try {
             const user = await User
                 .findById(id)
+                
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
@@ -109,7 +110,7 @@ const userController = {
 
             // Destroy user image from cloudinary
             if (user.img?.id) {
-                await destroyImage(body.img.id)
+                await destroyImage(user.img.id)
             }
 
             if (!user) {
