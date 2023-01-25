@@ -13,10 +13,10 @@ const { checkJwt } = require("../../middlewares/checkJwt.middleware");
 const router = express.Router()
 
 router
-    .get("/",        getAllAlbums)
+    .get("/",  checkJwt,      getAllAlbums)
     .get("/:id",    checkJwt, getAlbumById)
-    .post("/",      checkJwt, postAlbum)
+    .post("/",   checkJwt,    postAlbum)
     .delete("/:id", checkJwt, deleteAlbum)
-    .patch("/:id",  checkJwt, patchAlbum)
+    .patch("/:id", checkJwt,  patchAlbum)
 
     module.exports = router

@@ -63,7 +63,6 @@ const playlistController = {
         }
     },
     postPlaylist: async (req, res) => {
-        console.log("holi")
         const { body, params: { id }, files } = req
         try {
 
@@ -86,6 +85,7 @@ const playlistController = {
             if (files?.image) {
 
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
+                await fs.unlink(files.image.tempFilePath)
 
                 if (body.ownership) {
                     const playlist = await Playlist.create(
