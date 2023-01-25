@@ -20,8 +20,7 @@ const albumSchema = new Schema({
     tracks: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'track',
-            required: [true, "Tracks are required"]
+            ref: "track"
         }
     ],
     followers: {

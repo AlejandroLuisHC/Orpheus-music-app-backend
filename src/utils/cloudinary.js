@@ -15,28 +15,22 @@ cloudinary.config({
 
 // Upload an image to Cloudinary
 async function uploadImage(filePath) {
-    const cloudinary = await cloudinary.uploader.upload(filePath, {
+    return await cloudinary.uploader.upload(filePath, {
         resource_type: 'image',
         folder: "Final-Project-MERN/images-orpheus"
-    });
-    
-    await fs.unlink(files.image.tempFilePath)
-    return cloudinary;
+    });   
 }
 
 // Upload an audio to Cloudinary
 async function uploadTrack(filePath) {
-    const cloudinary = await cloudinary.uploader.upload(filePath, {
+    return await cloudinary.uploader.upload(filePath, {
         resource_type: 'video',
         folder: "Final-Project-MERN/tracks-orpheus"
     });
-
-    await fs.unlink(files.image.tempFilePath)
-    return cloudinary;
 }
 
 async function destroyImage(publicID) {
-    return await cloudinary.uploader.destroy(publicID);
+    await cloudinary.uploader.destroy(publicID);
 }
 
 module.exports = {

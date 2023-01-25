@@ -129,6 +129,9 @@ const userController = {
     patchUser: async (req, res) => {
         const { params: { id }, body, files } = req
 
+        console.log("BODY", body);
+        console.log("FILES", files);
+
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: "FALSE",
@@ -147,12 +150,15 @@ const userController = {
                     })
                 }
                 if (user.img.id) {
-                    await destroyImage(body.img)
+                    console.log(user.img.id);
+                    await destroyImage(user.img.id)
                 }
 
                 // If an image is uploaded we upload it to cloudinary and get the public_id and the URL
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
+                await fs.unlink(files.image.tempFilePath)
 
+                // Update user
                 await User.findByIdAndUpdate(
                     { _id: id },
                     {
@@ -160,13 +166,13 @@ const userController = {
                         img: { id: public_id, url: secure_url }
                     }
                 )
+
                 res.status(201).send({
                     status: "OK",
                     message: `User ${id} updated successfully`
                 })
 
             } else {
-
                 const user = await User.findByIdAndUpdate(
                     { _id: id },
                     { ...body }
@@ -178,6 +184,7 @@ const userController = {
                         message: `User ${id} was not found`
                     })
                 }
+
                 res.status(201).send({
                     status: "OK",
                     message: `User ${id} updated successfully`
@@ -185,10 +192,8 @@ const userController = {
             }
 
         } catch (err) {
-            res.status(400).send(err)
-
+            res.status(400).send(err.message)
         }
-
     }
 }
 
