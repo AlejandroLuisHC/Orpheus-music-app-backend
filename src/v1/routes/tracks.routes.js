@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+// const fileUpload = require("express-fileupload")
 const { checkJwt } = require('../../middlewares/checkJwt.middleware')
 
 const {
@@ -14,7 +15,7 @@ const {
 router
     .get('/',       /* checkJwt, */ getAllTracks)
     .get('/:id',    /* checkJwt, */ getOneTrack)
-    .post('/:id',   /* checkJwt, */ postNewTrack)
+    .post('/',      /* checkJwt, */ postNewTrack)
     .delete('/:id', /* checkJwt, */ deleteOneTrack)
     .patch('/:id',  /* checkJwt, */ patchOneTrack)
 

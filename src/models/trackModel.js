@@ -9,14 +9,17 @@ const trackSchema = new Schema({
         type: String
     },
     img: {
-        id: String,       
+        id: String,
         url: {
             type: String,
-            require: [true, "the image url is required"]
+            default: "https://res.cloudinary.com/drghk9p6q/image/upload/v1674479861/Final-Project-MERN/images-orpheus/default-images/track_okeksf.webp"
         }
     },
     file: {
-        type: String,
+        id: String,
+        url: {
+            type: String,
+        }
         // required: [true, "the file is required"]
     },
     album: {

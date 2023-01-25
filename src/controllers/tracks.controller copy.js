@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const { Track } = require('../models')
 const {
-    uploadImage, destroyImage, uploadTrack
+    uploadImage, uploadTrack, destroyImage
 } = require("../utils/cloudinary")
 const fs = require("fs-extra")
 
@@ -59,59 +59,49 @@ const tracksController = {
     },
 
     postNewTrack: async (req, res) => {
-        const { body, files, params: { id } } = req
-
-        console.log(files)
+        const { body, files } = req
 
         try {
             if (!files?.track) {
-                return res.status(400).send({
-                    status: "FAILED",
-                    message: "the track file is required"
-                })
+                console.log("no hay track");
+                return
+            } 
 
-            } else if (files?.image) {
-                const trackResult = await uploadTrack(files.track.tempFilePath)
-                console.log("trackResult", trackResult)
+            if (files?.image) {
+                console.log("files", files)
 
-                const imageResult = await uploadImage(files.image.tempFilePath)
-                console.log("imageResult", imageResult)
+                const result = await uploadTrack(files.track.tempFilePath)
+                console.log("result", result);
 
+                // const { public_id: trackPublicId, secure_url: trackSecureUrl } = await uploadTrack(files.track.tempFilePath)
                 // await fs.unlink(files.track.tempFilePath)
 
-                const newTrack = await Track.create({ 
-                    ...body,
-                    file: {
-                        id: trackResult.public_id,
-                        url: trackResult.secure_url
+                const { public_id: imagePublicId, secure_url: imageSecureUrl } = await uploadImage(files.image.tempFilePath)
+                // await fs.unlink(files.image.tempFilePath)
+
+                const newTrack = await Track.create(
+                    { 
+                        ...body
+                        // file: {
+                        //     id: trackPublicId,
+                        //     url: trackSecureUrl
+                        // },
+                        // img: {
+                        //     id: imagePublicId,
+                        //     url: imageSecureUrl
+                        // }
                     }
-                })
+                )
+
+                console.log("newTrack", newTrack)
             }
-
-            // const newTrack = await Track.create({ 
-            //     ...body,
-            //     file: {
-            //         id: 
-            //     }
-            // })
-
-            // if (files?.image) {
-            //     const result = await uploadImage(files.image.tempFilePath)
-            //     console.log(result)
-
-            //     newTrack.img = {
-            //         id: result.public_id,
-            //         url: result.secure_url
-            //     }
-
-            //     await fs.unlink(files.image.tempFilePath) 
-            // }
 
             res.status(201).send({ status: 'OK', data: newTrack })
         } catch (err) {
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILED', data: { error: err?.message || err } })
+                .send(err.message)
+                // .send({ status: 'FAILED', data: { error: err?.message || "error" } })
         }
     },
 
@@ -135,6 +125,15 @@ const tracksController = {
                 })
             }
 
+            if (track.video?.id) {
+                console.log("track.video.id", track.video.id);
+                await destroyImage(track.video.id)
+            }
+
+            if (track.img?.id) {
+                await destroyImage(track.img.id)
+            }
+
             res.status(204).send({ status: 'OK' })
         } catch (err) {
             res
@@ -144,7 +143,7 @@ const tracksController = {
     },
 
     patchOneTrack: async (req, res) => {
-        const { params: { id }, body } = req
+        const { params: { id }, body, files } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({

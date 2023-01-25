@@ -17,7 +17,7 @@ app.use(helmet())
 app.use(express.json())
 app.use(fileUpload({
     useTempFiles: true,
-    tempFileDir: './assets/tmp'
+    tempFileDir: './src/assets/tmp'
 }))
 
 // Connection to DB

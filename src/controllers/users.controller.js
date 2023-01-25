@@ -143,7 +143,7 @@ const userController = {
             if (files?.image) {
                 // Destroy previous image from cloudinary
                 if (body.img?.id) {
-                    await destroyImage(body.img)
+                    await destroyImage(body.img.id)
                 }
 
                 // If an image is uploaded we upload it to cloudinary and get the public_id and the URL
