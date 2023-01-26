@@ -56,12 +56,19 @@ const albumController = {
     },
 
     postAlbum: async (req, res) => {
-        const { body,files } = req
+        const { body, files } = req
 
-       
-        
         try {
+
             const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership[0] })
+
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(404).send({
+                    status: "FALSE",
+                    message: `${id} is an invalid ID`
+                })
+            }
+
             if (albumExists) {
                 res.status(400).send({
                     status: false,
@@ -70,6 +77,7 @@ const albumController = {
             }
            
             if(files?.image){
+
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
                 await fs.unlink(files.image.tempFilePath)
                 
@@ -82,6 +90,7 @@ const albumController = {
                     status: "Album created collab 2",
                     data: album
                 })
+
             }else {
                 const album = await Album.create({ ...body})
                 res.status(201).send({
