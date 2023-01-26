@@ -24,7 +24,7 @@ async function uploadImage(filePath) {
 // Upload an audio to Cloudinary
 async function uploadTrack(filePath) {
     return await cloudinary.uploader.upload(filePath, {
-        resource_type: 'track',
+        resource_type: 'video',
         folder: "Final-Project-MERN/tracks-orpheus"
     });
 }

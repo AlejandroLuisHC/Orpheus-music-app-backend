@@ -59,55 +59,49 @@ const tracksController = {
     },
 
     postNewTrack: async (req, res) => {
-        const { body, files, params: { id } } = req
-
-        console.log(files)
+        const { body, files } = req
 
         try {
-            if (!files?.track) {
+            if (!files?.video) {
                 return res.status(400).send({
                     status: "FAILED",
                     message: "the track file is required"
                 })
+            }
+            
+            const videoResult = await uploadTrack(files.video.tempFilePath)
+            await fs.unlink(files.video.tempFilePath)
 
-            } else if (files?.image) {
-                const trackResult = await uploadTrack(files.track.tempFilePath)
-                console.log("trackResult", trackResult)
-
+            if (files?.image) {
                 const imageResult = await uploadImage(files.image.tempFilePath)
-                console.log("imageResult", imageResult)
-
-                // await fs.unlink(files.track.tempFilePath)
+                await fs.unlink(files.image.tempFilePath)
 
                 const newTrack = await Track.create({ 
                     ...body,
                     file: {
-                        id: trackResult.public_id,
-                        url: trackResult.secure_url
+                        id: videoResult.public_id,
+                        url: videoResult.secure_url
+                    },
+                    img: {
+                        id: imageResult.public_id,
+                        url: imageResult.secure_url
                     }
                 })
+
+                res.status(201).send({ status: 'OK', data: newTrack })
+
+            } else {
+                const newTrack = await Track.create({ 
+                    ...body,
+                    file: {
+                        id: videoResult.public_id,
+                        url: videoResult.secure_url
+                    },
+                })
+
+                res.status(201).send({ status: 'OK', data: newTrack })
             }
-
-            // const newTrack = await Track.create({ 
-            //     ...body,
-            //     file: {
-            //         id: 
-            //     }
-            // })
-
-            // if (files?.image) {
-            //     const result = await uploadImage(files.image.tempFilePath)
-            //     console.log(result)
-
-            //     newTrack.img = {
-            //         id: result.public_id,
-            //         url: result.secure_url
-            //     }
-
-            //     await fs.unlink(files.image.tempFilePath) 
-            // }
-
-            res.status(201).send({ status: 'OK', data: newTrack })
+            
         } catch (err) {
             res
                 .status(err?.status || 500)
