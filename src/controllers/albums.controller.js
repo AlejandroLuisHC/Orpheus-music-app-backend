@@ -109,7 +109,6 @@ const albumController = {
                     status: "FALSE",
                     message: `Album ${id} was not found`
                 })
-
             }
 
             res.status(200).send(album)
@@ -152,7 +151,6 @@ const albumController = {
             res.status(400).send(error.message)
 
         }
-
     }
 }
 
