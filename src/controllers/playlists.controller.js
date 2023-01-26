@@ -63,11 +63,10 @@ const playlistController = {
         }
     },
     postPlaylist: async (req, res) => {
-        console.log("holi")
-        const { body, params: { id }, files } = req
+        const { body, files } = req
         try {
 
-            const playlistExist = await Playlist.findOne({ name: body.name, ownership: id })
+            const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership[0]  })
 
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 return res.status(404).send({
@@ -86,56 +85,30 @@ const playlistController = {
             if (files?.image) {
 
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
+                await fs.unlink(files.image.tempFilePath)
 
-                if (body.ownership) {
-                    const playlist = await Playlist.create(
-                        {
-                            ...body,
-                            img: { id: public_id, url: secure_url },
-                            ownership: [id, ...body.ownership]
-                        }
-                    )
-                    res.status(201).send({
-                        status: "Created ",
-                        data: playlist
-                    })
-                } else {
-                    const playlist = await Playlist.create(
-                        {
-                            ...body,
-                            img: { id: public_id, url: secure_url },
-                            ownership: [id]
-                        }
-                    )
-                    res.status(201).send({
-                        status: "Created ",
-                        data: playlist
-                    })
-                }
+                const playlist = await Playlist.create(
+                    {
+                        ...body,
+                        img: { id: public_id, url: secure_url },
+                    }
+                )
+                res.status(201).send({
+                    status: "Created ",
+                    data: playlist
+                })
+             
             } else {
-                if (body.ownership) {
-                    const playlist = await Playlist.create(
-                        {
-                            ...body,
-                            ownership: [id, ...body.ownership]
-                        }
-                    )
-                    res.status(201).send({
-                        status: "Created ",
-                        data: playlist
-                    })
-                } else {
-                    const playlist = await Playlist.create(
-                        {
-                            ...body,
-                            ownership: [id]
-                        }
-                    )
-                    res.status(201).send({
-                        status: "Created ",
-                        data: playlist
-                    })
-                }
+
+                const playlist = await Playlist.create(
+                    {
+                        ...body,
+                    }
+                )
+                res.status(201).send({
+                    status: "Created ",
+                    data: playlist
+                })
             }
 
         } catch (err) {
