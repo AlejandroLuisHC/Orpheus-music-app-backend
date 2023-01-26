@@ -45,6 +45,12 @@ const userSchema = new Schema({
         id: String,       
         url: String
     },
+    tracks: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'track'
+        }
+    ],
     favGenres: [
         {
             type: Schema.Types.ObjectId,
