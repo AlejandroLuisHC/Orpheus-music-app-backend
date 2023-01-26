@@ -70,6 +70,24 @@ const userSchema = new Schema({
             ref: 'track'
         }
     ],
+    playlists: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'playlist'
+        }
+    ],
+    albums: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'album'
+        }
+    ],
+    tracks: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'track'
+        }
+    ],
     followers: [
         {
             type: Schema.Types.ObjectId,

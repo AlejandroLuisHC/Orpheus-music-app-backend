@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const { Album } = require('../models')
+const { Album, User } = require('../models')
 
 const albumController = {
     getAllAlbums: async (req, res) => {
@@ -86,13 +86,43 @@ const albumController = {
                         img: { id: public_id, url: secure_url }
                     }
                 )
+
+                const updatedUser = await User.findByIdAndUpdate(
+                    {_id:body.ownership[0]},
+                    {
+                       "$push":{albums:album.id } 
+                    },
+                    {new: true}
+                )
                 res.status(201).send({
-                    status: "Album created collab 2",
-                    data: album
+                    status: "Created ",
+                    data: 
+                    {
+                        album,
+                        updatedUser
+                    }
                 })
+                
 
             }else {
                 const album = await Album.create({ ...body})
+
+                const updatedUser = await User.findByIdAndUpdate(
+                    {_id:body.ownership[0]},
+                    {
+                       "$push":{albums:album.id } 
+                    },
+                    {new: true}
+                )
+                res.status(201).send({
+                    status: "Created ",
+                    data: 
+                    {
+                        album,
+                        updatedUser
+                    }
+                })
+                
                 res.status(201).send({
                     status: "Album created collab 2",
                     data: album
@@ -115,6 +145,7 @@ const albumController = {
         }
 
         try {
+            const albumFind = await Album.findById(id)
             const album = await Album.findByIdAndDelete(id)
 
             if (album.img?.id) {
@@ -127,8 +158,19 @@ const albumController = {
                     message: `Album ${id} was not found`
                 })
             }
+            const updatedUser =await User.findByIdAndUpdate(
+                {_id:albumFind.ownership[0]},
+                {"$pull":{albums:id }}
+            )
 
-            res.status(200).send(album)
+            res.status(200).send({
+                status: "Deleted  ",
+                data: 
+                {
+                    album,
+                    updatedUser
+                }
+            })
 
         } catch (error) {
             res.status(400).send(error.message)

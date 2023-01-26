@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const { Playlist, Track } = require("../models")
+const { Playlist, User } = require("../models")
 const fs = require('fs-extra')
 const {
     uploadImage, destroyImage
@@ -65,13 +65,13 @@ const playlistController = {
     postPlaylist: async (req, res) => {
         const { body, files } = req
         try {
-
+                
             const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership[0]  })
 
-            if (!mongoose.Types.ObjectId.isValid(id)) {
+            if (!mongoose.Types.ObjectId.isValid(body.ownership[0])) {
                 return res.status(404).send({
                     status: "FALSE",
-                    message: `${id} is an invalid ID`
+                    message: `${body.ownership[0]} is an invalid ID`
                 })
             }
 
@@ -93,9 +93,21 @@ const playlistController = {
                         img: { id: public_id, url: secure_url },
                     }
                 )
+
+                const updatedUser = await User.findByIdAndUpdate(
+                    {_id:body.ownership[0]},
+                    {
+                       "$push":{playlists:playlist.id } 
+                    },
+                    {new: true}
+                )
                 res.status(201).send({
                     status: "Created ",
-                    data: playlist
+                    data: 
+                    {
+                        playlist,
+                        updatedUser
+                    }
                 })
              
             } else {
@@ -105,11 +117,30 @@ const playlistController = {
                         ...body,
                     }
                 )
+
+                
+                // const user = await User.findById(body.ownership[0])
+                   
+                const updatedUser = await User.findByIdAndUpdate(
+                    {_id:body.ownership[0]},
+                    {
+                       "$push":{playlists:playlist.id } 
+                    },
+                    {new: true}
+                )
+                
+
                 res.status(201).send({
                     status: "Created ",
-                    data: playlist
+                    data: 
+                    {
+                        playlist,
+                        updatedUser
+                    }
                 })
+                
             }
+            
 
         } catch (err) {
             res.status(400).send(err.message)
@@ -126,9 +157,8 @@ const playlistController = {
         }
 
         try {
-
+            const playlistFind = await Playlist.findById(id)
             const playlist = await Playlist.findByIdAndDelete(id)
-
             if (playlist.img?.id) {
                 await destroyImage(playlist.img.id)
             }
@@ -138,10 +168,23 @@ const playlistController = {
                     status: "FALSE",
                     message: `User ${id} was not found`
                 })
-                res.status(200).send(playlist)
             }
+            const updatedUser = await User.findByIdAndUpdate(
+                {_id:playlistFind.ownership[0]},
+                {"$pull":{playlists:id }}
+                
+            )
+
+            res.status(200).send({
+                status: "Deleted  ",
+                data: 
+                {
+                    playlist,
+                    updatedUser
+                }
+            })
         } catch (err) {
-            res.status(400).send(err)
+            res.status(400).send(err.message)
         }
 
     },
@@ -157,7 +200,7 @@ const playlistController = {
 
         try {
             if (files?.image) {
-
+                console.log(files?.image)
                 const playlistFind = await Playlist.findById(id)
                 // Destroy previous image from cloudinary
                 if (playlistFind.img?.id) {
