@@ -129,6 +129,14 @@ const tracksController = {
                 })
             }
 
+            if (track.file?.id) {
+                await destroyImage(track.file.id)
+            }
+
+            if (track.img?.id) {
+                await destroyImage(track.img.id)
+            }
+
             res.status(204).send({ status: 'OK' })
         } catch (err) {
             res
@@ -138,7 +146,7 @@ const tracksController = {
     },
 
     patchOneTrack: async (req, res) => {
-        const { params: { id }, body } = req
+        const { params: { id }, body, files } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
@@ -148,19 +156,62 @@ const tracksController = {
         }
 
         try {
-            const track = await Track.findByIdAndUpdate(
-                { _id: id },
-                { ...body }
-            )
+            if (!files) {
+                await Track.findByIdAndUpdate(
+                    { _id: id },
+                    { ...body }
+                )
+            } else {
+                const track = await Track.findById(id)
+                if (!track) {
+                    res.status(404).send({
+                        status: 'FAILED',
+                        data: { error: `Track ${id} was not found` },
+                    })
+                }
 
-            if (!track) {
-                return res.status(404).send({
-                    status: 'FAILED',
-                    data: { error: `Track ${id} was not found` },
-                })
+                if (files?.video) {
+                    if (track.file?.id) {
+                        await destroyImage(track.file.id)
+                    }
+
+                    const videoResult = await uploadTrack(files.video.tempFilePath)
+                    await fs.unlink(files.video.tempFilePath)
+
+                    await Track.findByIdAndUpdate(
+                        { _id: id },
+                        { 
+                            ...body,
+                            file: {
+                                id: videoResult.public_id,
+                                url: videoResult.secure_url
+                            }
+                        }
+                    )
+                }
+
+                if (files?.image) {
+                    if (track.img?.id) {
+                        await destroyImage(track.img.id)
+                    }
+
+                    const imageResult = await uploadImage(files.image.tempFilePath)
+                    await fs.unlink(files.image.tempFilePath)
+
+                    await Track.findByIdAndUpdate(
+                        { _id: id },
+                        { 
+                            ...body,
+                            img: {
+                                id: imageResult.public_id,
+                                url: imageResult.secure_url
+                            }
+                        }
+                    )
+                }
             }
 
-            res.status(201).send({ status: 'OK', data: track })
+            res.status(201).send({ status: 'OK', data: `Track ${id} updated successfully` })
         } catch (err) {
             res
                 .status(err?.status || 500)
