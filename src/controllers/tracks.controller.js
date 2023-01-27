@@ -64,13 +64,13 @@ const tracksController = {
         try {
             const trackExist = await Track.findOne({
                 name: body.name,
-                ownership: body.ownership[0]
+                ownership: body.ownership
             })
 
-            if (!mongoose.Types.ObjectId.isValid(body.ownership[0])) {
+            if (!mongoose.Types.ObjectId.isValid(body.ownership)) {
                 return res.status(404).send({
                     status: 'FAILED',
-                    messase: `${body.ownership[0]} is an invalid ID`
+                    messase: `${body.ownership} is an invalid ID`
                 })
             }
 
@@ -108,7 +108,7 @@ const tracksController = {
                 })
 
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: body.ownership[0] },
+                    { _id: body.ownership },
                     { "$push": { tracks: newTrack.id } },
                     { new: true }
                 )
@@ -131,7 +131,7 @@ const tracksController = {
                 })
 
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: body.ownership[0] },
+                    { _id: body.ownership },
                     { "$push": { tracks: newTrack.id } },
                     { new: true }
                 )
@@ -185,7 +185,7 @@ const tracksController = {
             }
 
             const updatedUser = await User.findByIdAndUpdate(
-                { _id: findTrack.ownership[0] },
+                { _id: findTrack.ownership },
                 { "$pull": { tracks: id } },
             )
 
