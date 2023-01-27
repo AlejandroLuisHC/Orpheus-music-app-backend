@@ -11,17 +11,18 @@ const trackSchema = new Schema({
         trim: true
     },
     img: {
-        id: String,       
+        id: String,
         url: {
             type: String,
-            required: [true, "img is required"]
+            // required: [true, "img is required"],
+            default: "https://res.cloudinary.com/drghk9p6q/image/upload/v1674479861/Final-Project-MERN/images-orpheus/default-images/track_okeksf.webp"
         }
     },
     file: {
         id: String,
         url: {
             type: String,
-            required: [true, "the file is required"]
+            // required: [true, "the file is required"]
         }
     },
     album: {
@@ -43,7 +44,7 @@ const trackSchema = new Schema({
     ownership: [
         {
             type: Schema.Types.ObjectId,
-            required: [true, "the ownership is required"],
+            // required: [true, "the ownership is required"],
             ref: 'user'
         }
     ]
