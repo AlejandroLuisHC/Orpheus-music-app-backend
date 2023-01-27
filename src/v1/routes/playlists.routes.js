@@ -7,12 +7,13 @@ const {
     patchPlaylist
 } = require("../../controllers/playlists.controller")
 const { checkJwt } = require("../../middlewares/checkJwt.middleware")
+
 const router = express.Router()
 router
     .get("/",       checkJwt,getAllPlaylists)
     .get("/:id",    checkJwt,getPlaylistById)
-    .post("/",   postPlaylist)
-    .delete("/:id", deletePlaylist)
-    .patch("/:id",   patchPlaylist)
+    .post("/:id",   checkJwt,postPlaylist)
+    .delete("/:id", checkJwt,deletePlaylist)
+    .patch("/:id",  checkJwt,patchPlaylist)
 
 module.exports = router;

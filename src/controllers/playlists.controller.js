@@ -42,7 +42,12 @@ const playlistController = {
         try {
             const playlist = await Playlist
                 .findById(id)
-                .populate("tracks")
+                .populate({
+                    path: 'tracks',
+                    populate: {
+                        path: 'ownership',
+                    }
+                })
                 .populate("followers")
                 .populate("genres")
                 .populate("moods")
@@ -83,10 +88,8 @@ const playlistController = {
             }
 
             if (files?.image) {
-
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
                 await fs.unlink(files.image.tempFilePath)
-
 
                 const playlist = await Playlist.create(
                     {
@@ -119,8 +122,6 @@ const playlistController = {
                     }
                 )
 
-
-
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },
                     {
@@ -128,7 +129,6 @@ const playlistController = {
                     },
                     { new: true }
                 )
-
 
                 res.status(201).send({
                     status: "Created ",
@@ -138,9 +138,7 @@ const playlistController = {
                         updatedUser
                     }
                 })
-
             }
-
 
         } catch (err) {
             await fs.unlink(files?.image?.tempFilePath)

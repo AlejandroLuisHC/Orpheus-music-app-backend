@@ -34,7 +34,7 @@ const userSchema = new Schema({
         trim: true,
     },
     img: {
-        id: String,       
+        id: String,
         url: {
             type: String,
             required: [true, "img is required"],
@@ -42,9 +42,27 @@ const userSchema = new Schema({
         }
     },
     banner: {
-        id: String,       
+        id: String,
         url: String
     },
+    tracks: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'track'
+        }
+    ],
+    albums: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'album'
+        }
+    ],
+    playlists: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'playlist'
+        }
+    ],
     favGenres: [
         {
             type: Schema.Types.ObjectId,
