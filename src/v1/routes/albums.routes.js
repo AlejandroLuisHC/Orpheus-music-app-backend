@@ -15,7 +15,7 @@ const router = express.Router()
 router
     .get("/",       checkJwt, getAllAlbums)
     .get("/:id",    checkJwt, getAlbumById)
-    .post("/",      checkJwt, postAlbum)
+    .post("/",       postAlbum)
     .delete("/:id", checkJwt, deleteAlbum)
     .patch("/:id",  checkJwt, patchAlbum)
 

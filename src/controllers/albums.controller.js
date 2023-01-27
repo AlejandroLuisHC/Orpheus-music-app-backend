@@ -1,5 +1,9 @@
 const mongoose = require("mongoose")
-const { Album } = require('../models')
+const { Album, User } = require('../models')
+const fs = require('fs-extra')
+const {
+    uploadImage, destroyImage
+} = require("../utils/cloudinary")
 
 const albumController = {
     getAllAlbums: async (req, res) => {
@@ -39,7 +43,7 @@ const albumController = {
                 .populate("genres")
                 .populate("ownership")
                 .lean()
-                    
+
             if (!album) {
                 return res.status(404).send({
                     status: "FALSE",
@@ -62,10 +66,10 @@ const albumController = {
 
             const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership[0] })
 
-            if (!mongoose.Types.ObjectId.isValid(id)) {
+            if (!mongoose.Types.ObjectId.isValid(body.ownership[0])) {
                 return res.status(404).send({
                     status: "FALSE",
-                    message: `${id} is an invalid ID`
+                    message: `${body.ownership[0]} is an invalid ID`
                 })
             }
 
@@ -75,32 +79,64 @@ const albumController = {
                     massage: "Album already exist"
                 })
             }
-           
-            if(files?.image){
+
+            if (files?.image) {
 
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
                 await fs.unlink(files.image.tempFilePath)
-                
+
                 const album = await Album.create(
-                    { ...body,
+                    {
+                        ...body,
                         img: { id: public_id, url: secure_url }
                     }
                 )
+
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: body.ownership[0] },
+                    {
+                        "$push": { albums: album.id }
+                    },
+                    { new: true }
+                )
                 res.status(201).send({
-                    status: "Album created collab 2",
-                    data: album
+                    status: "Created ",
+                    data:
+                    {
+                        album,
+                        updatedUser
+                    }
                 })
 
-            }else {
-                const album = await Album.create({ ...body})
+
+            } else {
+                const album = await Album.create({ ...body })
+
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: body.ownership[0] },
+                    {
+                        "$push": { albums: album.id }
+                    },
+                    { new: true }
+                )
+                res.status(201).send({
+                    status: "Created ",
+                    data:
+                    {
+                        album,
+                        updatedUser
+                    }
+                })
+
                 res.status(201).send({
                     status: "Album created collab 2",
                     data: album
                 })
             }
-            
+
 
         } catch (error) {
+            await fs.unlink(files?.image?.tempFilePath)
             res.status(400).send(error.message)
         }
     },
@@ -115,6 +151,7 @@ const albumController = {
         }
 
         try {
+            const albumFind = await Album.findById(id)
             const album = await Album.findByIdAndDelete(id)
 
             if (album.img?.id) {
@@ -127,8 +164,19 @@ const albumController = {
                     message: `Album ${id} was not found`
                 })
             }
+            const updatedUser = await User.findByIdAndUpdate(
+                { _id: albumFind.ownership[0] },
+                { "$pull": { albums: id } }
+            )
 
-            res.status(200).send(album)
+            res.status(200).send({
+                status: "Deleted  ",
+                data:
+                {
+                    album,
+                    updatedUser
+                }
+            })
 
         } catch (error) {
             res.status(400).send(error.message)
@@ -147,11 +195,19 @@ const albumController = {
         }
 
         try {
-            if(files?.image){
-                
-                const albumFind = await Album.findById(id)
-               
-                if (albumFind.img?.id) {
+            const album = await Album.findById(id)
+
+            if (files?.image) {
+
+
+                if (!album) {
+                    res.status(404).send({
+                        status: "FALSE",
+                        message: `Album ${id} was not found`
+                    })
+                }
+
+                if (album.img?.id) {
 
                     await destroyImage(albumFind.img.id)
                 }
@@ -159,44 +215,42 @@ const albumController = {
 
                 await fs.unlink(files.image.tempFilePath)
 
-                const album = await Album.findByIdAndUpdate(
+                await Album.findByIdAndUpdate(
                     { _id: id },
                     {
                         ...body,
                         img: { id: public_id, url: secure_url }
                     }
-                    )
-                if (!album) {
-                    res.status(404).send({
-                        status: "FALSE",
-                        message: `Album ${id} was not found`
-                    })
-    
-                }
+                )
+
+
                 res.status(201).send({
                     status: "OK",
                     message: `Album ${id} updated successfully`
                 })
-            }else{
-                const album = await Album.findByIdAndUpdate(
-                    { _id: id },
-                    {
-                        ...body,
-                    }
-                    )
+            } else {
+
                 if (!album) {
                     res.status(404).send({
                         status: "FALSE",
                         message: `Album ${id} was not found`
                     })
-    
+
                 }
+                await Album.findByIdAndUpdate(
+                    { _id: id },
+                    {
+                        ...body,
+                    }
+                )
+
                 res.status(201).send({
                     status: "OK",
                     message: `Album ${id} updated successfully`
                 })
             }
         } catch (error) {
+            await fs.unlink(files?.image?.tempFilePath)
             res.status(400).send(error.message)
 
         }
