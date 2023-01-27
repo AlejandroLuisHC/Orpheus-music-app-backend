@@ -12,6 +12,9 @@ const userController = {
                 .find({})
                 .limit(10)
                 .sort({ date: -1 })
+                .populate("tracks")
+                .populate("albums")
+                .populate("playlists")
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
@@ -19,7 +22,7 @@ const userController = {
                 .populate("followers")
                 .populate("following")
                 .lean()
-            
+
             if (users.length < 1) {
                 return res.status(404).send({
                     status: "FALSE",
@@ -27,7 +30,7 @@ const userController = {
                 })
             }
 
-            res.status(200).send(users)        
+            res.status(200).send(users)
 
         } catch (err) {
             res.status(400).send(err.message)
@@ -47,6 +50,9 @@ const userController = {
         try {
             const user = await User
                 .findById(id)
+                .populate("tracks")
+                .populate("albums")
+                .populate("playlists")
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
