@@ -4,7 +4,6 @@ const {
     uploadImage, destroyImage, uploadTrack
 } = require("../utils/cloudinary")
 const fs = require("fs-extra")
-const { findById } = require("../models/userModel")
 
 const tracksController = {
     getAllTracks: async (req, res) => {
@@ -21,7 +20,7 @@ const tracksController = {
         } catch (err) {
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILED', data: { error: err?.message || err } })
+                .send({ status: 'FAILED', error: err?.message })
         }
     },
 
@@ -31,7 +30,7 @@ const tracksController = {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: 'FAILED',
-                data: { error: `${id} is an invalid ID` },
+                message: `${id} is an invalid ID`
             })
         }
 
@@ -47,7 +46,7 @@ const tracksController = {
             if (!track) {
                 return res.status(404).send({
                     status: 'FAILED',
-                    data: { error: `Track ${id} was not found` },
+                    message: `Track ${id} was not found`
                 })
             }
 
@@ -55,7 +54,7 @@ const tracksController = {
         } catch (err) {
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILED', data: { error: err?.message || err } })
+                .send({ status: 'FAILED', error: err?.message })
         }
     },
 
@@ -71,7 +70,7 @@ const tracksController = {
             if (!mongoose.Types.ObjectId.isValid(body.ownership[0])) {
                 return res.status(404).send({
                     status: 'FAILED',
-                    messase: `Owner ${body.ownership[0]} is an invalid ID`
+                    messase: `${body.ownership[0]} is an invalid ID`
                 })
             }
 
@@ -147,6 +146,9 @@ const tracksController = {
             }
             
         } catch (err) {
+            await fs.unlink(files?.video?.tempFilePath)
+            await fs.unlink(files?.image?.tempFilePath)
+
             res
                 .status(err?.status || 500)
                 .send({ status: 'FAILED', error: err?.message })
@@ -159,14 +161,15 @@ const tracksController = {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: 'FAILED',
-                error: `${id} is an invalid ID`
+                message: `${id} is an invalid ID`
             })
         }
 
         try {
+            const findTrack = await Track.findById(id)
             const track = await Track.findByIdAndDelete(id)
-                
-            if (!track) {
+
+            if (!findTrack || !track) {
                 return res.status(404).send({
                     status: 'FAILED',
                     error: `Track ${id} was not found`
@@ -181,20 +184,16 @@ const tracksController = {
                 await destroyImage(track.img.id)
             }
 
-            //TODO: delete the track id from user.tracks
-            // const owner = await User.findById(track.id)
-
-            // const updatedUser = await User.findByIdAndUpdate(
-            //     { _id: id },
-            //     { "$pull": { tracks: id } },
-            //     { new: true }
-            // )
+            const updatedUser = await User.findByIdAndUpdate(
+                { _id: findTrack.ownership[0] },
+                { "$pull": { tracks: id } },
+            )
 
             res.status(204).send({ status: 'OK', data: updatedUser })
         } catch (err) {
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILED', data: { error: err?.message || err } })
+                .send({ status: 'FAILED', error: err?.message })
         }
     },
 
@@ -204,7 +203,7 @@ const tracksController = {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
                 status: 'FAILED',
-                error: `${id} is an invalid ID`
+                message: `${id} is an invalid ID`
             })
         }
 
@@ -267,9 +266,12 @@ const tracksController = {
 
             res.status(201).send({ status: 'OK', data: `Track ${id} updated successfully` })
         } catch (err) {
+            await fs.unlink(files?.video?.tempFilePath)
+            await fs.unlink(files?.image?.tempFilePath)
+            
             res
                 .status(err?.status || 500)
-                .send({ status: 'FAILDED', data: { error: err?.message || err } })
+                .send({ status: 'FAILDED', error: err?.message })
         }
     }
 }
