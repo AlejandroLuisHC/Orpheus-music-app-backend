@@ -64,12 +64,12 @@ const albumController = {
 
         try {
 
-            const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership[0] })
+            const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership })
 
-            if (!mongoose.Types.ObjectId.isValid(body.ownership[0])) {
+            if (!mongoose.Types.ObjectId.isValid(body.ownership)) {
                 return res.status(404).send({
                     status: "FALSE",
-                    message: `${body.ownership[0]} is an invalid ID`
+                    message: `${body.ownership} is an invalid ID`
                 })
             }
 
@@ -93,7 +93,7 @@ const albumController = {
                 )
 
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: body.ownership[0] },
+                    { _id: body.ownership },
                     {
                         "$push": { albums: album.id }
                     },
@@ -113,7 +113,7 @@ const albumController = {
                 const album = await Album.create({ ...body })
 
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: body.ownership[0] },
+                    { _id: body.ownership },
                     {
                         "$push": { albums: album.id }
                     },
@@ -165,7 +165,7 @@ const albumController = {
                 })
             }
             const updatedUser = await User.findByIdAndUpdate(
-                { _id: albumFind.ownership[0] },
+                { _id: albumFind.ownership },
                 { "$pull": { albums: id } }
             )
 

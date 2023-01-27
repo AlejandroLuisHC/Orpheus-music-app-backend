@@ -34,13 +34,13 @@ const albumSchema = new Schema({
             required: [true, "genre is required"]
         }
     ],
-    ownership: [
+    ownership: 
         {
             type: Schema.Types.ObjectId,
             ref: 'user',
             required: [true, "album ownership is required"]
         }
-    ],
+    ,
     release: {
         type: Date,
     }
