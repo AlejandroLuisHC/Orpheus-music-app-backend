@@ -1,5 +1,9 @@
 const mongoose = require("mongoose")
 const { Album, User } = require('../models')
+const fs = require('fs-extra')
+const {
+    uploadImage, destroyImage
+} = require("../utils/cloudinary")
 
 const albumController = {
     getAllAlbums: async (req, res) => {
@@ -62,10 +66,10 @@ const albumController = {
 
             const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership[0] })
 
-            if (!mongoose.Types.ObjectId.isValid(id)) {
+            if (!mongoose.Types.ObjectId.isValid(body.ownership[0])) {
                 return res.status(404).send({
                     status: "FALSE",
-                    message: `${id} is an invalid ID`
+                    message: `${body.ownership[0]} is an invalid ID`
                 })
             }
 
@@ -131,6 +135,7 @@ const albumController = {
             
 
         } catch (error) {
+            await fs.unlink(files?.image?.tempFilePath)
             res.status(400).send(error.message)
         }
     },
@@ -239,6 +244,7 @@ const albumController = {
                 })
             }
         } catch (error) {
+            await fs.unlink(files?.image?.tempFilePath)
             res.status(400).send(error.message)
 
         }

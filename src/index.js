@@ -12,6 +12,7 @@ const {
     VERSION,
     ROUTING_VERSION
 } = require("./config/config")
+const { tmpPurge } = require("./middlewares/tmpPurge.middleware")
 
 // Middlewares
 app.use(cors({ origin: APP_ORIGIN }))
