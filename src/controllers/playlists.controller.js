@@ -43,10 +43,8 @@ const playlistController = {
             const playlist = await Playlist
                 .findById(id)
                 .populate({
-                    path: 'tracks',
-                    populate: {
-                        path: 'ownership',
-                    }
+                    path: "tracks",
+                    populate:"ownership"
                 })
                 .populate("followers")
                 .populate("genres")
