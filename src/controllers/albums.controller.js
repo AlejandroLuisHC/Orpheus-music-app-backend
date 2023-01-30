@@ -28,7 +28,7 @@ const albumController = {
         }
     },
     getAlbumById: async (req, res) => {
-        const { body, params: { id } } = req
+        const {  params: { id } } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
@@ -151,7 +151,7 @@ const albumController = {
         }
 
         try {
-            const albumFind = await Album.findById(id)
+            // const albumFind = await Album.findById(id)
             const album = await Album.findByIdAndDelete(id)
 
             if (album.img?.id) {
@@ -164,10 +164,10 @@ const albumController = {
                     message: `Album ${id} was not found`
                 })
             }
-            const updatedUser = await User.findByIdAndUpdate(
-                { _id: albumFind.ownership },
-                { "$pull": { albums: id } }
-            )
+            // const updatedUser = await User.findByIdAndUpdate(
+            //     { _id: albumFind.ownership },
+            //     { "$pull": { albums: id } }
+            // )
 
             res.status(200).send({
                 status: "Deleted  ",

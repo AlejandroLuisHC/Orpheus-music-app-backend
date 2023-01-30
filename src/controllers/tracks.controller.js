@@ -184,10 +184,12 @@ const tracksController = {
                 await destroyImage(track.img.id)
             }
 
-            const updatedUser = await User.findByIdAndUpdate(
-                { _id: findTrack.ownership },
-                { "$pull": { tracks: id } },
-            )
+            // const updatedUser = await User.findByIdAndUpdate(
+            //     { _id: findTrack.ownership },
+            //     { "$pull": { tracks: id } },
+            // )
+
+            
 
             res.status(204).send({ status: 'OK', data: updatedUser })
         } catch (err) {

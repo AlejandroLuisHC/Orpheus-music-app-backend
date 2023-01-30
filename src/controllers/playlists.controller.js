@@ -154,7 +154,7 @@ const playlistController = {
         }
 
         try {
-            const playlistFind = await Playlist.findById(id)
+            // const playlistFind = await Playlist.findById(id)
             const playlist = await Playlist.findByIdAndDelete(id)
             if (playlist.img?.id) {
                 await destroyImage(playlist.img.id)
@@ -166,11 +166,11 @@ const playlistController = {
                     message: `User ${id} was not found`
                 })
             }
-            const updatedUser = await User.findByIdAndUpdate(
-                { _id: playlistFind.ownership },
-                { "$pull": { playlists: id } }
+            // const updatedUser = await User.findByIdAndUpdate(
+            //     { _id: playlistFind.ownership },
+            //     { "$pull": { playlists: id } }
 
-            )
+            // )
 
             res.status(200).send({
                 status: "Deleted  ",
