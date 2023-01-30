@@ -28,7 +28,7 @@ const albumController = {
         }
     },
     getAlbumById: async (req, res) => {
-        const { body, params: { id } } = req
+        const {  params: { id } } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
@@ -64,12 +64,12 @@ const albumController = {
 
         try {
 
-            const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership[0] })
+            const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership })
 
-            if (!mongoose.Types.ObjectId.isValid(body.ownership[0])) {
+            if (!mongoose.Types.ObjectId.isValid(body.ownership)) {
                 return res.status(404).send({
                     status: "FALSE",
-                    message: `${body.ownership[0]} is an invalid ID`
+                    message: `${body.ownership} is an invalid ID`
                 })
             }
 
@@ -93,7 +93,7 @@ const albumController = {
                 )
 
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: body.ownership[0] },
+                    { _id: body.ownership },
                     {
                         "$push": { albums: album.id }
                     },
@@ -113,7 +113,7 @@ const albumController = {
                 const album = await Album.create({ ...body })
 
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: body.ownership[0] },
+                    { _id: body.ownership },
                     {
                         "$push": { albums: album.id }
                     },
@@ -151,7 +151,7 @@ const albumController = {
         }
 
         try {
-            const albumFind = await Album.findById(id)
+            // const albumFind = await Album.findById(id)
             const album = await Album.findByIdAndDelete(id)
 
             if (album.img?.id) {
@@ -164,10 +164,10 @@ const albumController = {
                     message: `Album ${id} was not found`
                 })
             }
-            const updatedUser = await User.findByIdAndUpdate(
-                { _id: albumFind.ownership[0] },
-                { "$pull": { albums: id } }
-            )
+            // const updatedUser = await User.findByIdAndUpdate(
+            //     { _id: albumFind.ownership },
+            //     { "$pull": { albums: id } }
+            // )
 
             res.status(200).send({
                 status: "Deleted  ",

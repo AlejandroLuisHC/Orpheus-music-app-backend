@@ -69,12 +69,12 @@ const playlistController = {
         const { body, files } = req
         try {
 
-            const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership[0] })
+            const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership })
 
-            if (!mongoose.Types.ObjectId.isValid(body.ownership[0])) {
+            if (!mongoose.Types.ObjectId.isValid(body.ownership)) {
                 return res.status(404).send({
                     status: "FALSE",
-                    message: `${body.ownership[0]} is an invalid ID`
+                    message: `${body.ownership} is an invalid ID`
                 })
             }
 
@@ -97,7 +97,7 @@ const playlistController = {
                 )
 
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: body.ownership[0] },
+                    { _id: body.ownership },
                     {
                         "$push": { playlists: playlist.id }
                     },
@@ -121,7 +121,7 @@ const playlistController = {
                 )
 
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: body.ownership[0] },
+                    { _id: body.ownership },
                     {
                         "$push": { playlists: playlist.id }
                     },
@@ -154,7 +154,7 @@ const playlistController = {
         }
 
         try {
-            const playlistFind = await Playlist.findById(id)
+            // const playlistFind = await Playlist.findById(id)
             const playlist = await Playlist.findByIdAndDelete(id)
             if (playlist.img?.id) {
                 await destroyImage(playlist.img.id)
@@ -166,11 +166,11 @@ const playlistController = {
                     message: `User ${id} was not found`
                 })
             }
-            const updatedUser = await User.findByIdAndUpdate(
-                { _id: playlistFind.ownership[0] },
-                { "$pull": { playlists: id } }
+            // const updatedUser = await User.findByIdAndUpdate(
+            //     { _id: playlistFind.ownership },
+            //     { "$pull": { playlists: id } }
 
-            )
+            // )
 
             res.status(200).send({
                 status: "Deleted  ",
