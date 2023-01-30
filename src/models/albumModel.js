@@ -11,7 +11,7 @@ const albumSchema = new Schema({
         trim: true
     },
     img: {
-        id: String,       
+        id: String,
         url: {
             type: String,
             required: [true, "img is required"],
@@ -34,13 +34,11 @@ const albumSchema = new Schema({
             required: [true, "genre is required"]
         }
     ],
-    ownership: 
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'user',
-            required: [true, "album ownership is required"]
-        }
-    ,
+    ownership: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: [true, "album ownership is required"]
+    },
     release: {
         type: Date,
     }

@@ -9,4 +9,5 @@ const router = express.Router()
 router
     .get("/",   checkJwt, getAllMoods)
     .post("/",  checkJwt, postMood)
+    
 module.exports = router;

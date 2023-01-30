@@ -42,14 +42,13 @@ const playlistSchema = new Schema({
             ref: "mood"
         }
     ],
-    ownership: 
-        {
-            type: Schema.Types.ObjectId,
-            required: [true, "ownership is required"],
-            ref: "user"
-        }
+    ownership:{
+        type: Schema.Types.ObjectId,
+        required: [true, "ownership is required"],
+        ref: "user"
+    }
 
-    
+
 }, { timestamps: true })
 
 module.exports = model('playlist', playlistSchema)
