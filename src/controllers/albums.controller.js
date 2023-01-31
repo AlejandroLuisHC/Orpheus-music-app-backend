@@ -10,7 +10,10 @@ const albumController = {
         try {
             const albums = await Album
                 .find({})
-                .populate("tracks")
+                .populate({
+                    path: "tracks",
+                    populate: "ownership"
+                })
                 .populate("genres")
                 .populate("ownership")
                 .lean()
@@ -21,14 +24,14 @@ const albumController = {
                     message: `The DB is currently empty`
                 })
             }
-
             res.status(200).send(albums)
+
         } catch (error) {
             res.status(400).send(error.message)
         }
     },
     getAlbumById: async (req, res) => {
-        const {  params: { id } } = req
+        const { params: { id } } = req
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
@@ -39,7 +42,10 @@ const albumController = {
         try {
             const album = await Album
                 .findById(id)
-                .populate("tracks")
+                .populate({
+                    path: "tracks",
+                    populate: "ownership"
+                })
                 .populate("genres")
                 .populate("ownership")
                 .lean()

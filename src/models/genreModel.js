@@ -6,6 +6,6 @@ const genreSchema = new Schema({
         required: [true, "Genre is required"],
         trim: true
     }
-})
+}, { timestamps: true })
 
 module.exports = model('genre', genreSchema)

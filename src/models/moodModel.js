@@ -6,6 +6,6 @@ const moodSchema = new Schema({
         required: [true, "Mood is required"],
         trim: true
     }
-})
+}, { timestamps: true })
 
 module.exports = model('mood', moodSchema)

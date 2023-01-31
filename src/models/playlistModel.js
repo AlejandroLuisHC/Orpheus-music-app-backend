@@ -42,7 +42,7 @@ const playlistSchema = new Schema({
             ref: "mood"
         }
     ],
-    ownership:{
+    ownership: {
         type: Schema.Types.ObjectId,
         required: [true, "ownership is required"],
         ref: "user"

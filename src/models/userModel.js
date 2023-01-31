@@ -5,14 +5,20 @@ const userSchema = new Schema({
     username: {
         type: String,
         required: [true, "the username is required"],
+        max: 20,
+        min: 4,
         trim: true,
     },
     firstname: {
         type: String,
+        max: 20,
+        min: 2,
         trim: true,
     },
     lastname: {
         type: String,
+        max: 40,
+        min: 2,
         trim: true,
     },
     email: {
