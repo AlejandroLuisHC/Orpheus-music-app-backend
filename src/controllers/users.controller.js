@@ -157,7 +157,7 @@ const userController = {
                 await fs.unlink(files.image.tempFilePath)
 
                 // Update user
-                await User.findByIdAndUpdate(
+                const updatedUser = await User.findByIdAndUpdate(
                     { _id: id },
                     {
                         ...body,
@@ -167,7 +167,8 @@ const userController = {
 
                 res.status(201).send({
                     status: "OK",
-                    message: `User ${id} updated successfully`
+                    message: `User ${id} updated successfully`,
+                    data:updatedUser
                 })
 
             } else {
