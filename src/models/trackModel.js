@@ -41,13 +41,11 @@ const trackSchema = new Schema({
             ref: 'genre'
         }
     ],
-    ownership: [
-        {
-            type: Schema.Types.ObjectId,
-            // required: [true, "the ownership is required"],
-            ref: 'user'
-        }
-    ]
+    ownership: {
+        type: Schema.Types.ObjectId,
+        // required: [true, "the ownership is required"],
+        ref: 'user'
+    }
 }, { timestamps: true })
 
 module.exports = model('track', trackSchema)

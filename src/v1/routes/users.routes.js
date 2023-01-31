@@ -11,7 +11,7 @@ const { checkJwt } = require("../../middlewares/checkJwt.middleware")
 const router = express.Router()
 router
     .get("/",                 getAllUsers)
-    .get("/:id",    /* checkJwt, */ getUserById)
+    .get("/:id",    checkJwt, getUserById)
     .post("/",                postUser)
     .delete("/:id", checkJwt, deleteUser)
     .patch("/:id",  checkJwt, patchUser)
