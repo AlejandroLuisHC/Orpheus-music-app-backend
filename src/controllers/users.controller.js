@@ -127,8 +127,7 @@ const userController = {
     patchUser: async (req, res) => {
         const { params: { id }, body, files } = req
 
-        console.log("BODY", body);
-        console.log("FILES", files);
+       
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
@@ -148,7 +147,7 @@ const userController = {
                     })
                 }
                 if (user.img.id) {
-                    console.log(user.img.id);
+                  
                     await destroyImage(user.img.id)
                 }
 
@@ -157,7 +156,7 @@ const userController = {
                 await fs.unlink(files.image.tempFilePath)
 
                 // Update user
-                await User.findByIdAndUpdate(
+                const updatedUser = await User.findByIdAndUpdate(
                     { _id: id },
                     {
                         ...body,
@@ -167,7 +166,8 @@ const userController = {
 
                 res.status(201).send({
                     status: "OK",
-                    message: `User ${id} updated successfully`
+                    message: `User ${id} updated successfully`,
+                    data:updatedUser
                 })
 
             } else {

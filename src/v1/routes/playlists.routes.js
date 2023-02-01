@@ -12,8 +12,8 @@ const router = express.Router()
 router
     .get("/",       checkJwt,getAllPlaylists)
     .get("/:id",    checkJwt,getPlaylistById)
-    .post("/:id",   checkJwt,postPlaylist)
+    .post("/",   checkJwt,postPlaylist)
     .delete("/:id", checkJwt,deletePlaylist)
-    .patch("/:id",  checkJwt,patchPlaylist)
+    .patch("/:id", checkJwt, patchPlaylist)
 
 module.exports = router;
