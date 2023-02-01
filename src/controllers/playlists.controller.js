@@ -68,7 +68,7 @@ const playlistController = {
     postPlaylist: async (req, res) => {
         const { body, files } = req
         try {
-            console.log("entrando")
+            
             const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership })
 
             if (!mongoose.Types.ObjectId.isValid(body.ownership)) {
@@ -139,7 +139,7 @@ const playlistController = {
             }
 
         } catch (err) {
-            console.log(err.message)
+      
             res.status(400).send(err.message)
         }
     },
@@ -197,7 +197,7 @@ const playlistController = {
 
         try {
             if (files?.image) {
-                console.log(files?.image)
+               
                 const playlistFind = await Playlist.findById(id)
                 // Destroy previous image from cloudinary
                 if (playlistFind.img?.id) {

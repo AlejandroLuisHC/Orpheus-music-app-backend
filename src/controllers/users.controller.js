@@ -127,8 +127,7 @@ const userController = {
     patchUser: async (req, res) => {
         const { params: { id }, body, files } = req
 
-        console.log("BODY", body);
-        console.log("FILES", files);
+       
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
@@ -148,7 +147,7 @@ const userController = {
                     })
                 }
                 if (user.img.id) {
-                    console.log(user.img.id);
+                  
                     await destroyImage(user.img.id)
                 }
 
