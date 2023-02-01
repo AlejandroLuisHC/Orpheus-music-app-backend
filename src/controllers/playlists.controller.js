@@ -68,7 +68,7 @@ const playlistController = {
     postPlaylist: async (req, res) => {
         const { body, files } = req
         try {
-
+            console.log("entrando")
             const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership })
 
             if (!mongoose.Types.ObjectId.isValid(body.ownership)) {
@@ -139,7 +139,7 @@ const playlistController = {
             }
 
         } catch (err) {
-            await fs.unlink(files?.image?.tempFilePath)
+            console.log(err.message)
             res.status(400).send(err.message)
         }
     },
