@@ -95,7 +95,8 @@ const albumController = {
                     {
                         ...body,
                         img: { id: public_id, url: secure_url }
-                    }
+                    },
+                    { new: true }
                 )
 
                 const updatedUser = await User.findByIdAndUpdate(
@@ -116,7 +117,7 @@ const albumController = {
 
 
             } else {
-                const album = await Album.create({ ...body })
+                const album = await Album.create({ ...body }, { new: true })
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },
@@ -170,10 +171,7 @@ const albumController = {
                     message: `Album ${id} was not found`
                 })
             }
-            // const updatedUser = await User.findByIdAndUpdate(
-            //     { _id: albumFind.ownership },
-            //     { "$pull": { albums: id } }
-            // )
+
 
             res.status(200).send({
                 status: "Deleted  ",
@@ -226,7 +224,8 @@ const albumController = {
                     {
                         ...body,
                         img: { id: public_id, url: secure_url }
-                    }
+                    },
+                    { new: true }
                 )
 
 
@@ -247,7 +246,8 @@ const albumController = {
                     { _id: id },
                     {
                         ...body,
-                    }
+                    },
+                    { new: true }
                 )
 
                 res.status(201).send({
