@@ -94,9 +94,7 @@ const albumController = {
                     {
                         ...body,
                         img: { id: public_id, url: secure_url }
-                    },
-                    { new: true }
-                )
+                    })
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },
@@ -116,7 +114,7 @@ const albumController = {
 
 
             } else {
-                const album = await Album.create({ ...body }, { new: true })
+                const album = await Album.create({ ...body })
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },
@@ -132,11 +130,6 @@ const albumController = {
                         album,
                         updatedUser
                     }
-                })
-
-                res.status(201).send({
-                    status: "Album created collab 2",
-                    data: album
                 })
             }
 

@@ -29,8 +29,7 @@ const moodsController = {
                     message: "Mood already stored in the DB"
                 })
             }
-            const mood = await Mood.create({ ...body },
-                { new: true })
+            const mood = await Mood.create({ ...body })
             res.status(201).send({
                 status: "Created",
                 data: mood

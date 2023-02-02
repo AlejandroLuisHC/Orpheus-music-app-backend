@@ -105,9 +105,7 @@ const tracksController = {
                         id: imageResult.public_id,
                         url: imageResult.secure_url
                     }
-                },
-                { new: true }
-                )
+                })
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },
@@ -130,8 +128,7 @@ const tracksController = {
                         id: videoResult.public_id,
                         url: videoResult.secure_url
                     },
-                },
-                { new: true })
+                })
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },

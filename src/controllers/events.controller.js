@@ -77,8 +77,7 @@ const eventController = {
                         id: public_id,
                         url: secure_url
                     }
-                },
-                    { new: true })
+                })
 
                 res.status(201).send({
                     status: "Created",
@@ -98,8 +97,7 @@ const eventController = {
                 res.status(201).send({
                     status: "Created",
                     data: event
-                },
-                    { new: true })
+                })
             }
         } catch (err) {
             res.status(400).send(err.message)

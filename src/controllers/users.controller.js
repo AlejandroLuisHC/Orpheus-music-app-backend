@@ -88,8 +88,7 @@ const userController = {
         }
 
         try {
-            const user = await User.create({ ...body },
-                { new: true })
+            const user = await User.create({ ...body })
             res.status(201).send({
                 status: "Created",
                 data: user
