@@ -44,7 +44,7 @@ const playlistController = {
                 .findById(id)
                 .populate({
                     path: "tracks",
-                    populate:"ownership"
+                    populate: "ownership"
                 })
                 .populate("followers")
                 .populate("genres")
@@ -68,7 +68,7 @@ const playlistController = {
     postPlaylist: async (req, res) => {
         const { body, files } = req
         try {
-            
+
             const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership })
 
             if (!mongoose.Types.ObjectId.isValid(body.ownership)) {
@@ -93,7 +93,8 @@ const playlistController = {
                     {
                         ...body,
                         img: { id: public_id, url: secure_url },
-                    }
+                    },
+                    { new: true }
                 )
 
                 const updatedUser = await User.findByIdAndUpdate(
@@ -139,7 +140,7 @@ const playlistController = {
             }
 
         } catch (err) {
-      
+
             res.status(400).send(err.message)
         }
     },
@@ -154,7 +155,7 @@ const playlistController = {
         }
 
         try {
-            // const playlistFind = await Playlist.findById(id)
+
             const playlist = await Playlist.findByIdAndDelete(id)
             if (playlist.img?.id) {
                 await destroyImage(playlist.img.id)
@@ -166,11 +167,6 @@ const playlistController = {
                     message: `User ${id} was not found`
                 })
             }
-            // const updatedUser = await User.findByIdAndUpdate(
-            //     { _id: playlistFind.ownership },
-            //     { "$pull": { playlists: id } }
-
-            // )
 
             res.status(200).send({
                 status: "Deleted  ",
@@ -197,16 +193,14 @@ const playlistController = {
 
         try {
             if (files?.image) {
-               
+
                 const playlistFind = await Playlist.findById(id)
-                // Destroy previous image from cloudinary
+
                 if (playlistFind.img?.id) {
 
                     await destroyImage(playlistFind.img.id)
                 }
 
-                //  const track = await Track.findByIdAndUpdate({_id:body.track._id},
-                //     {playlist: [body.track._id, ...track.playlist]})   
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
 
                 await fs.unlink(files.image.tempFilePath)
@@ -216,7 +210,8 @@ const playlistController = {
                     {
                         ...body,
                         img: { id: public_id, url: secure_url }
-                    }
+                    },
+                    { new: true }
                 )
                 if (!playlist) {
                     res.status(404).send({
@@ -233,7 +228,8 @@ const playlistController = {
             } else {
                 const playlist = await Playlist.findByIdAndUpdate(
                     { _id: id },
-                    { ...body }
+                    { ...body },
+                    { new: true }
                 )
                 if (!playlist) {
                     res.status(404).send({
