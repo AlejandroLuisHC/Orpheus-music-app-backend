@@ -61,7 +61,6 @@ const albumController = {
 
         } catch (error) {
             res.status(400).send(error.message)
-
         }
     },
 
@@ -184,7 +183,6 @@ const albumController = {
 
         } catch (error) {
             res.status(400).send(error.message)
-
         }
 
     },
@@ -256,9 +254,7 @@ const albumController = {
                 })
             }
         } catch (error) {
-            await fs.unlink(files?.image?.tempFilePath)
             res.status(400).send(error.message)
-
         }
     }
 }

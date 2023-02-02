@@ -79,19 +79,22 @@ const userSchema = new Schema({
     favPlaylists: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'playlist'
+            ref: 'playlist',
+            default: []
         }
     ],
     favAlbums: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'album'
+            ref: 'album',
+            default: []
         }
     ],
     favTracks: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'track'
+            ref: 'track',
+            default: []
         }
     ],
     followers: [

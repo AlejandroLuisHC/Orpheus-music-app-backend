@@ -18,7 +18,10 @@ const userController = {
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
-                .populate("favTracks")
+                .populate({
+                    path: "favTracks",
+                    populate: "ownership"
+                })
                 .populate("followers")
                 .populate("following")
                 .lean()
@@ -56,7 +59,10 @@ const userController = {
                 .populate("favGenres")
                 .populate("favPlaylists")
                 .populate("favAlbums")
-                .populate("favTracks")
+                .populate({
+                    path: "favTracks",
+                    populate: "ownership"
+                })
                 .populate("followers")
                 .populate("following")
                 .lean()

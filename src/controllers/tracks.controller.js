@@ -149,9 +149,6 @@ const tracksController = {
             }
             
         } catch (err) {
-            await fs.unlink(files?.video?.tempFilePath)
-            await fs.unlink(files?.image?.tempFilePath)
-
             res
                 .status(err?.status || 500)
                 .send({ status: 'FAILED', error: err?.message })
@@ -186,9 +183,6 @@ const tracksController = {
             if (track.img?.id) {
                 await destroyImage(track.img.id)
             }
-
-          
-            
 
             res.status(204).send({ status: 'OK', data: updatedUser })
         } catch (err) {
@@ -270,9 +264,6 @@ const tracksController = {
 
             res.status(201).send({ status: 'OK', data: `Track ${id} updated successfully` })
         } catch (err) {
-            await fs.unlink(files?.video?.tempFilePath)
-            await fs.unlink(files?.image?.tempFilePath)
-            
             res
                 .status(err?.status || 500)
                 .send({ status: 'FAILDED', error: err?.message })
