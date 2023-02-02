@@ -4,7 +4,9 @@ const moodSchema = new Schema({
     name: {
         type: String,
         required: [true, "Mood is required"],
-        trim: true
+        trim: true,
+        max: 20,
+        min: 2
     }
 }, { timestamps: true })
 

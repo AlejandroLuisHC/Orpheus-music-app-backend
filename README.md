@@ -22,6 +22,58 @@ _You need to install nodejs_
 Go to [NodeJS web page](https://nodejs.org/es/) download and install the
 program.
 
+## Endpoints and actions 🔍
+
+### `/api/v1/users` Endpoint
+
+- **GET** `/`: Retrieves a list of all users.
+- **GET** `/:id`: Retrieves a specific user by their `id`.
+- **POST** `/`: Creates a new user.
+- **DELETE** `/:id`: Deletes a specific user by their `id`.
+- **PATCH** `/:id`: Updates a specific user by their `id`. 
+
+### `/api/v1/playlists` Endpoint
+
+- **GET** `/`: Retrieves a list of all playlists.
+- **GET** `/:id`: Retrieves a specific playlist by their `id`.
+- **POST** `/`: Creates a new playlist.
+- **DELETE** `/:id`: Deletes a specific playlist by their `id`.
+- **PATCH** `/:id`: Updates a specific playlists by their `id`. 
+
+### `/api/v1/tracks` Endpoint
+
+- **GET** `/`: Retrieves a list of all tracks.
+- **GET** `/:id`: Retrieves a specific track by their `id`.
+- **POST** `/`: Creates a new track.
+- **DELETE** `/:id`: Deletes a specific track by their `id`.
+- **PATCH** `/:id`: Updates a specific track by their `id`. 
+
+### `/api/v1/albums` Endpoint
+
+- **GET** `/`: Retrieves a list of all albums.
+- **GET** `/:id`: Retrieves a specific album by their `id`.
+- **POST** `/`: Creates a new album.
+- **DELETE** `/:id`: Deletes a specific album by their `id`.
+- **PATCH** `/:id`: Updates a specific album by their `id`. 
+
+### `/api/v1/events` Endpoint
+
+- **GET** `/`: Retrieves a list of all events.
+- **GET** `/:id`: Retrieves a specific event by their `id`.
+- **POST** `/`: Creates a new event.
+- **DELETE** `/:id`: Deletes a specific event by their `id`.
+- **PATCH** `/:id`: Updates a specific event by their `id`. 
+
+### `/api/v1/genres` Endpoint
+
+- **GET** `/`: Retrieves a list of all genres.
+- **POST** `/`: Creates a new genre.
+
+### `/api/v1/moods` Endpoint
+
+- **GET** `/`: Retrieves a list of all moods.
+- **POST** `/`: Creates a new mood.
+
 ## Built with 🛠️
 - **Express.js**: A web application framework for Node.js
 - **Mongoose**: A MongoDB object modeling tool for Node.js

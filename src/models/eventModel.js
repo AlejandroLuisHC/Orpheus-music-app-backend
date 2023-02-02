@@ -2,11 +2,6 @@ const { Schema, model } = require("mongoose")
 
 
 const eventSchema = new Schema({
-    type: {
-        type: String,
-        trim: true
-    },
-
     img: {
         id: String,
         url: {
@@ -25,12 +20,15 @@ const eventSchema = new Schema({
         type: String,
         required: [true, "Name is required"],
         trim: true,
+        max: 40,
+        min: 4,
         unique: [true, "Name must be unique"]
     },
 
     description: {
         type: String,
-        trim: true
+        trim: true,
+        max: 200,
     },
 
     genres: [

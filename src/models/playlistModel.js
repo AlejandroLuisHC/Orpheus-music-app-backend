@@ -3,12 +3,16 @@ const { Schema, model } = require("mongoose")
 const playlistSchema = new Schema({
     name: {
         type: String,
-         required: [true, "name is required"],
-        trim: true
+        required: [true, "name is required"],
+        trim: true,
+        max: 20,
+        min: 2
     },
     description: {
         type: String,
-        trim: true
+        trim: true,
+        max: 200,
+        min: 2
     },
     img: {
         id: String,
