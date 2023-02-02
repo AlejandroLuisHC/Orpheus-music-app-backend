@@ -64,18 +64,26 @@ const eventController = {
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
                 await fs.unlink(files.image.tempFilePath)
 
-                const event = await Event.create({ 
-                    ...body, 
+                const eventExists = await Event.findOne({ name: body.name })
+                if (eventExists) {
+                    return res.status(400).send({
+                        status: "false",
+                        message: "Event already stored in the DB"
+                    })
+                }
+                const event = await Event.create({
+                    ...body,
                     img: {
                         id: public_id,
                         url: secure_url
                     }
-                })
+                },
+                    { new: true })
 
                 res.status(201).send({
                     status: "Created",
                     data: event
-                }) 
+                })
 
             } else {
                 const eventExists = await Event.findOne({ name: body.name })
@@ -90,7 +98,8 @@ const eventController = {
                 res.status(201).send({
                     status: "Created",
                     data: event
-                })
+                },
+                    { new: true })
             }
         } catch (err) {
             res.status(400).send(err.message)
@@ -129,7 +138,8 @@ const eventController = {
                     {
                         ...body,
                         img: { id: public_id, url: secure_url }
-                    }
+                    },
+                    { new: true }
                 )
                 res.status(201).send({
                     status: "OK",
@@ -140,7 +150,8 @@ const eventController = {
 
                 const event = await Event.findByIdAndUpdate(
                     { _id: id },
-                    { ...body }
+                    { ...body },
+                    { new: true }
                 )
 
                 if (!event) {

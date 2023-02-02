@@ -29,7 +29,8 @@ const genresController = {
                     message: "Genre already stored in the DB"
                 })
             }
-            const genre = await Genre.create({ ...body })
+            const genre = await Genre.create({ ...body },
+                { new: true })
             res.status(201).send({
                 status: "Created",
                 data: genre

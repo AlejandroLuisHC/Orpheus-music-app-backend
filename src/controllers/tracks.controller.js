@@ -105,7 +105,9 @@ const tracksController = {
                         id: imageResult.public_id,
                         url: imageResult.secure_url
                     }
-                })
+                },
+                { new: true }
+                )
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },
@@ -128,7 +130,8 @@ const tracksController = {
                         id: videoResult.public_id,
                         url: videoResult.secure_url
                     },
-                })
+                },
+                { new: true })
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },
@@ -184,11 +187,7 @@ const tracksController = {
                 await destroyImage(track.img.id)
             }
 
-            // const updatedUser = await User.findByIdAndUpdate(
-            //     { _id: findTrack.ownership },
-            //     { "$pull": { tracks: id } },
-            // )
-
+          
             
 
             res.status(204).send({ status: 'OK', data: updatedUser })
@@ -213,7 +212,8 @@ const tracksController = {
             if (!files) {
                 await Track.findByIdAndUpdate(
                     { _id: id },
-                    { ...body }
+                    { ...body },
+                    { new: true }
                 )
             } else {
                 const track = await Track.findById(id)
@@ -241,7 +241,8 @@ const tracksController = {
                                 id: videoResult.public_id,
                                 url: videoResult.secure_url
                             }
-                        }
+                        },
+                        { new: true }
                     )
                 }
 
@@ -261,7 +262,8 @@ const tracksController = {
                                 id: imageResult.public_id,
                                 url: imageResult.secure_url
                             }
-                        }
+                        },
+                        { new: true }
                     )
                 }
             }
