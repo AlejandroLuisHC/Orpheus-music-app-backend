@@ -23,7 +23,7 @@ const ROUTING_VERSION = "./v1"
 
 module.exports = {
     PORT,
-    DB: DB_TEST,
+    DB: DB,
     AUTH0_AUDIENCE,
     AUTH0_ISSUER,
     APP_ORIGIN,
