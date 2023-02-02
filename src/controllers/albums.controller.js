@@ -66,7 +66,8 @@ const albumController = {
 
     postAlbum: async (req, res) => {
         const { body, files } = req
-
+        const tracks = body.tracks.split(',')
+        
         try {
 
             const albumExists = await Album.findOne({ name: body.name, ownership: body.ownership })
@@ -93,6 +94,7 @@ const albumController = {
                 const album = await Album.create(
                     {
                         ...body,
+                        tracks,
                         img: { id: public_id, url: secure_url }
                     })
 
@@ -114,7 +116,7 @@ const albumController = {
 
 
             } else {
-                const album = await Album.create({ ...body })
+                const album = await Album.create({ ...body,tracks })
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: body.ownership },
@@ -135,7 +137,7 @@ const albumController = {
 
 
         } catch (error) {
-            await fs.unlink(files?.image?.tempFilePath)
+            
             res.status(400).send(error.message)
         }
     },

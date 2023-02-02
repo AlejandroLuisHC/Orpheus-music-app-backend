@@ -67,9 +67,13 @@ const playlistController = {
     },
     postPlaylist: async (req, res) => {
         const { body, files } = req
+        
+        const moods = body.mood?.split()
+        
+        
         try {
 
-            const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership })
+             const playlistExist = await Playlist.findOne({ name: body.name, ownership: body.ownership })
 
             if (!mongoose.Types.ObjectId.isValid(body.ownership)) {
                 return res.status(404).send({
@@ -88,13 +92,14 @@ const playlistController = {
             if (files?.image) {
                 const { public_id, secure_url } = await uploadImage(files.image.tempFilePath)
                 await fs.unlink(files.image.tempFilePath)
-
+              
                 const playlist = await Playlist.create(
                     {
                         ...body,
+                        moods,
                         img: { id: public_id, url: secure_url },
                     },
-                    { new: true }
+                    
                 )
 
                 const updatedUser = await User.findByIdAndUpdate(
@@ -114,10 +119,11 @@ const playlistController = {
                 })
 
             } else {
-
+             
                 const playlist = await Playlist.create(
                     {
                         ...body,
+                        moods,
                     }
                 )
 
