@@ -4,11 +4,15 @@ const playlistSchema = new Schema({
     name: {
         type: String,
         required: [true, "Name is required"],
-        trim: true
+        trim: true,
+        max: 20,
+        min: 2
     },
     description: {
         type: String,
-        trim: true
+        trim: true,
+        max: 200,
+        min: 2
     },
     img: {
         id: String,
