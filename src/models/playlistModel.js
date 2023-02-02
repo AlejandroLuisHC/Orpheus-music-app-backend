@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose")
 const playlistSchema = new Schema({
     name: {
         type: String,
-        required: [true, "Name is required"],
+        required: [true, "name is required"],
         trim: true,
         max: 20,
         min: 2
@@ -18,7 +18,7 @@ const playlistSchema = new Schema({
         id: String,
         url: {
             type: String,
-            require: [true, "img is required"],
+            required: [true, "img is required"],
             default: 'https://res.cloudinary.com/drghk9p6q/image/upload/v1674479864/Final-Project-MERN/images-orpheus/default-images/playlist_mcyltf.webp'
         }
     },
