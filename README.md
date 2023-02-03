@@ -84,7 +84,7 @@ program.
 - **Express-jwt**: A middleware for validating JWTs (JSON Web Tokens)
 - **Jwks-rsa**: A library for retrieving RSA signing keys from a JWKS (JSON Web Key Set) endpoint
 - **Auth0**: An authentication and authorization platform for web and mobile apps
-- **Cloudinary**: A cloud-based image and video management service for web and mobile apps"
+- **Cloudinary**: A cloud-based image and video management service for web and mobile apps
 
 ## Contributing 🖇️
 
