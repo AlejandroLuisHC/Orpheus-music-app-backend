@@ -87,7 +87,7 @@ program.
 We welcome any contributions to the Orpheus-music-app (Backend API). To contribute, please follow these steps:
 
 1. Fork the repository by clicking the "Fork" button in the top right corner of this page.
-2. Clone the forked repository to your local machine by running `git clone https://github.com/AlejandroLuisHC/Orpheus-music-app-backend.git` in your terminal.
+2. Clone the forked repository to your local machine by running `git clone https://github.com/[your-username]/Orpheus-music-app-backend.git` in your terminal.
 3. Create a new branch for your contribution by running `git checkout -b [branch-name]`.
 4. Make your changes and test them thoroughly.
 5. Commit your changes by running `git commit -m "[commit message]"`.
