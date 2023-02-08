@@ -7,11 +7,7 @@ This is the backend repository for the [Orpheus-music-app repository](https://gi
 
 1. Clone the repository: `git clone https://github.com/AlejandroLuisHC/Orpheus-Music-App-Backend-API.git`
 2. Install the dependencies: `npm install`
-3. Create a `.env` file in the root of the project and set the following environment variables:
-- `MONGO_URI`: The URI of the MongoDB database
-- `JWT_ISSUER`: The issuer of the JWTs
-- `JWT_AUDIENCE`: The audience of the JWTs
-- `JWT_SECRET`: The secret used to sign the JWTs
+3. Create a `.env` file in the root of the project and set the environment following the stucture provided in the `.env.example`
 4. Start the development server: `npm run dev`
 5. Open the browser and navigate to `https://orpheus-music-app.netlify.app/` to access the API.
 
