@@ -1,4 +1,6 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CodeFactor](https://www.codefactor.io/repository/github/alejandroluishc/orpheus-music-app-backend/badge)](https://www.codefactor.io/repository/github/alejandroluishc/orpheus-music-app-backend)
 # Orpheus (Backend API)
 ![This is an image](https://res.cloudinary.com/drghk9p6q/image/upload/v1671122043/Final-Project-MERN/Readme/WhatsApp_Image_2022-12-15_at_17.29.42_c8gara.jpg)
 This is the backend repository for the [Orpheus-music-app repository](https://github.com/AlejandroLuisHC/orpheus-music-app).
