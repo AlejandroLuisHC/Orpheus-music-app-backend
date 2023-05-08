@@ -1,17 +1,15 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CodeFactor](https://www.codefactor.io/repository/github/alejandroluishc/orpheus-music-app-backend/badge)](https://www.codefactor.io/repository/github/alejandroluishc/orpheus-music-app-backend)
 # Orpheus (Backend API)
 ![This is an image](https://res.cloudinary.com/drghk9p6q/image/upload/v1671122043/Final-Project-MERN/Readme/WhatsApp_Image_2022-12-15_at_17.29.42_c8gara.jpg)
 This is the backend repository for the [Orpheus-music-app repository](https://github.com/AlejandroLuisHC/orpheus-music-app).
 
 ## Getting Started 🚀
 
-1. Clone the repository: `git clone https://github.com/[username]/Orpheus-Music-App-Backend-API.git`
+1. Clone the repository: `git clone https://github.com/AlejandroLuisHC/Orpheus-Music-App-Backend-API.git`
 2. Install the dependencies: `npm install`
-3. Create a `.env` file in the root of the project and set the following environment variables:
-- `MONGO_URI`: The URI of the MongoDB database
-- `JWT_ISSUER`: The issuer of the JWTs
-- `JWT_AUDIENCE`: The audience of the JWTs
-- `JWT_SECRET`: The secret used to sign the JWTs
+3. Create a `.env` file in the root of the project and set the environment following the stucture provided in the `.env.example`
 4. Start the development server: `npm run dev`
 5. Open the browser and navigate to `https://orpheus-music-app.netlify.app/` to access the API.
 
@@ -84,14 +82,14 @@ program.
 - **Express-jwt**: A middleware for validating JWTs (JSON Web Tokens)
 - **Jwks-rsa**: A library for retrieving RSA signing keys from a JWKS (JSON Web Key Set) endpoint
 - **Auth0**: An authentication and authorization platform for web and mobile apps
-- **Cloudinary**: A cloud-based image and video management service for web and mobile apps"
+- **Cloudinary**: A cloud-based image and video management service for web and mobile apps
 
 ## Contributing 🖇️
 
 We welcome any contributions to the Orpheus-music-app (Backend API). To contribute, please follow these steps:
 
 1. Fork the repository by clicking the "Fork" button in the top right corner of this page.
-2. Clone the forked repository to your local machine by running `git clone https://github.com/AlejandroLuisHC/Orpheus-music-app-backend.git` in your terminal.
+2. Clone the forked repository to your local machine by running `git clone https://github.com/[your-username]/Orpheus-music-app-backend.git` in your terminal.
 3. Create a new branch for your contribution by running `git checkout -b [branch-name]`.
 4. Make your changes and test them thoroughly.
 5. Commit your changes by running `git commit -m "[commit message]"`.
