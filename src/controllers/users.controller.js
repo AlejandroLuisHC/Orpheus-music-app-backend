@@ -10,7 +10,6 @@ const userController = {
         try {
             const users = await User
                 .find({})
-                .limit(10)
                 .sort({ date: -1 })
                 .populate("tracks")
                 .populate("albums")
@@ -132,8 +131,6 @@ const userController = {
     },
     patchUser: async (req, res) => {
         const { params: { id }, body, files } = req
-
-
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send({
